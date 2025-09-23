@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Your Name — Game Portfolio</title>
+  <meta name="description" content="Playable portfolio: games, design, code." />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#0b0c10; --card:#11131a; --ink:#e6e8ef; --muted:#a7adbb; --accent:#66fcf1; --accent-ink:#0b0c10;
+      --maxw:1100px;
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{margin:0;font-family:Inter,system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif;background:var(--bg);color:var(--ink);}
+    a{color:var(--accent);text-decoration:none}
+    a:hover{text-decoration:underline}
+    .container{max-width:var(--maxw);margin:0 auto;padding:24px}
+    header{position:sticky;top:0;z-index:1000;background:linear-gradient(to bottom, rgba(11,12,16,.9), rgba(11,12,16,.6));backdrop-filter:saturate(1.1) blur(6px);}
+    nav{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:12px 24px;}
+    nav .brand{font-weight:700;letter-spacing:.2px}
+    nav .links{display:flex;gap:18px}
+    .btn{display:inline-block;background:var(--accent);color:var(--accent-ink);padding:10px 14px;border-radius:12px;font-weight:600;border:1px solid transparent}
+    .btn:hover{filter:brightness(1.05)}
+    .hero{padding:64px 24px 24px}
+    .hero h1{font-size:clamp(28px,5vw,44px);margin:0 0 12px}
+    .hero p{color:var(--muted);max-width:70ch;margin:8px 0 18px}
+    .grid{display:grid;gap:16px}
+    @media(min-width:900px){.grid.two{grid-template-columns:1.2fr .8fr}}
+    section{padding:48px 24px;border-top:1px solid rgba(255,255,255,.06)}
+    h2{margin:0 0 12px}
+    .card{background:var(--card);border:1px solid rgba(255,255,255,.06);border-radius:16px;padding:18px}
+    .stack{display:flex;flex-direction:column;gap:10px}
+    .muted{color:var(--muted)}
+    .pill{display:inline-block;padding:6px 10px;border:1px solid rgba(255,255,255,.12);border-radius:999px;color:var(--muted);font-size:12px}
+
+    /* Playable section */
+    .play-wrap{position:relative;border-radius:16px;overflow:hidden;background:#0e1116;border:1px solid rgba(255,255,255,.08)}
+    .play-aspect{position:relative;width:100%;padding-top:56.25%}
+    .play-embed{position:absolute;inset:0;border:0;width:100%;height:100%}
+    .play-top{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none}
+    .loader{pointer-events:none;background:linear-gradient(90deg, rgba(255,255,255,.06), rgba(255,255,255,.02));padding:10px 14px;border-radius:12px;border:1px solid rgba(255,255,255,.08)}
+    .play-actions{display:flex;gap:10px;margin-top:10px}
+
+    footer{padding:36px 24px;color:var(--muted)}
+  </style>
+</head>
+<body>
+  <header>
+    <nav class="container">
+      <div class="brand">Your Name</div>
+      <div class="links">
+        <a href="#about">About</a>
+        <a href="#projects">Projects</a>
+        <a href="#play">Play</a>
+        <a href="#contact">Contact</a>
+        <a class="btn" href="assets/CV_YourName.pdf" download>Download CV</a>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero container grid two" id="home">
+      <div>
+        <h1>Designer–Developer building playful systems</h1>
+        <p>Short intro about you: game design, Unity development, 3D art. Mention shipped titles, engines, and what you love building. Keep it 2–3 sentences.</p>
+        <div class="stack">
+          <div class="pill">Unity • C# • URP • WebGL • Blender • Figma</div>
+          <div class="play-actions">
+            <a class="btn" href="#play">Play my portfolio</a>
+            <a href="#projects">See projects →</a>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <strong>Highlights</strong>
+        <ul>
+          <li>⚙️ Built systems: upgrade trees, state machines, economy</li>
+          <li>🎮 Genres: idle/tycoon, management, arcade</li>
+          <li>🚀 Performance: 120 FPS on S22, URP mobile lighting</li>
+        </ul>
+      </div>
+    </section>
+
+    <section id="about" class="container">
+      <h2>About me</h2>
+      <div class="grid two">
+        <div class="card">
+          <p>Write a concise bio (5–7 lines). What problems do you solve, what tools do you master, and what impact did you have on shipped projects? Mention collaborations and publishers if relevant.</p>
+        </div>
+        <div class="card">
+          <strong>Expertise</strong>
+          <ul>
+            <li>Gameplay & systems design</li>
+            <li>Unity (URP, mobile optimization)</li>
+            <li>3D assets & UI/UX for games</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="projects" class="container">
+      <h2>Projects</h2>
+      <div class="grid">
+        <div class="card">
+          <strong>Project A</strong>
+          <p class="muted">One-liner about genre, role, and results.</p>
+          <a href="#" target="_blank">Steam/itch/Play Store →</a>
+        </div>
+        <div class="card">
+          <strong>Project B</strong>
+          <p class="muted">One-liner about your contribution and what’s unique.</p>
+          <a href="#" target="_blank">Trailer →</a>
+        </div>
+        <div class="card">
+          <strong>Project C</strong>
+          <p class="muted">Brief impact/metrics if possible.</p>
+          <a href="#" target="_blank">Case study →</a>
+        </div>
+      </div>
+    </section>
+
+    <section id="play" class="container">
+      <h2>Playable portfolio</h2>
+      <p class="muted">Move with <strong>A/D</strong> or <strong>←/→</strong>, <strong>Space</strong> to jump. Enter a portal to open a project.</p>
+      <div class="play-wrap">
+        <div class="play-aspect">
+          <!-- IMPORTANT: place your Unity WebGL build at /game/index.html with Build/ & TemplateData/ alongside -->
+          <iframe id="portfolioGame" class="play-embed" src="game/index.html" title="Playable Portfolio" loading="lazy" allow="fullscreen; gamepad; xr-spatial-tracking;" referrerpolicy="no-referrer"></iframe>
+          <div id="loader" class="play-top">
+            <div class="loader">Loading WebGL…</div>
+          </div>
+        </div>
+      </div>
+      <div class="play-actions">
+        <a class="btn" href="game/index.html" target="_blank" rel="noopener">Open full screen</a>
+        <a href="#contact">Contact me →</a>
+      </div>
+    </section>
+
+    <section id="contact" class="container">
+      <h2>Contact</h2>
+      <div class="grid two">
+        <div class="card">
+          <p>Email: <a href="mailto:you@example.com">you@example.com</a></p>
+          <p>LinkedIn: <a href="#" target="_blank" rel="noopener">/in/your-handle</a></p>
+          <p>itch.io / Steam: <a href="#" target="_blank" rel="noopener">yourpage</a></p>
+        </div>
+        <form class="card" name="contact" netlify>
+          <input type="hidden" name="form-name" value="contact" />
+          <div class="stack">
+            <label>Name <br><input name="name" required style="width:100%;padding:10px;border-radius:10px;border:1px solid rgba(255,255,255,.15);background:#0b0e14;color:#e6e8ef"></label>
+            <label>Email <br><input name="email" type="email" required style="width:100%;padding:10px;border-radius:10px;border:1px solid rgba(255,255,255,.15);background:#0b0e14;color:#e6e8ef"></label>
+            <label>Message <br><textarea name="message" rows="4" required style="width:100%;padding:10px;border-radius:10px;border:1px solid rgba(255,255,255,.15);background:#0b0e14;color:#e6e8ef"></textarea></label>
+            <button class="btn" type="submit">Send</button>
+          </div>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer class="container">© <span id="y"></span> Your Name. Built with Unity WebGL & GitHub Pages.</footer>
+
+  <script>
+    // year
+    document.getElementById('y').textContent = new Date().getFullYear();
+    // hide loader once iframe has content
+    const iframe = document.getElementById('portfolioGame');
+    const loader = document.getElementById('loader');
+    iframe.addEventListener('load', ()=> loader.style.display = 'none');
+  </script>
+</body>
+</html>
