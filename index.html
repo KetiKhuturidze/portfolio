@@ -3,173 +3,273 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Ketevan Khuturidze — Portfolio</title>
-  <meta name="description" content="Playable portfolio: games, design, code." />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <title>Webflow Development — Subscription Services</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
     :root{
-      --bg:#0b0c10; --card:#11131a; --ink:#e6e8ef; --muted:#a7adbb; --accent:#66fcf1; --accent-ink:#0b0c10;
-      --maxw:1100px;
+      --bg:#0b0c10;
+      --panel:#0f1117;
+      --card:#11131a;
+      --ink:#e7e9ef;
+      --muted:#a6adbb;
+      --line:rgba(255,255,255,.06);
+      --blue:#5a7bff;
+      --purple:#7b5cff;
+      --maxW:1200px;
     }
     *{box-sizing:border-box}
     html{scroll-behavior:smooth}
-    body{margin:0;font-family:Inter,system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif;background:var(--bg);color:var(--ink);}
-    a{color:var(--accent);text-decoration:none}
-    a:hover{text-decoration:underline}
-    .container{max-width:var(--maxw);margin:0 auto;padding:24px}
-    header{position:sticky;top:0;z-index:1000;background:linear-gradient(to bottom, rgba(11,12,16,.9), rgba(11,12,16,.6));backdrop-filter:saturate(1.1) blur(6px);}
-    nav{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:12px 24px;}
-    nav .brand{font-weight:700;letter-spacing:.2px}
-    nav .links{display:flex;gap:18px}
-    .btn{display:inline-block;background:var(--accent);color:var(--accent-ink);padding:10px 14px;border-radius:12px;font-weight:600;border:1px solid transparent}
-    .btn:hover{filter:brightness(1.05)}
-    .hero{padding:64px 24px 24px}
-    .hero h1{font-size:clamp(28px,5vw,44px);margin:0 0 12px}
-    .hero p{color:var(--muted);max-width:70ch;margin:8px 0 18px}
-    .grid{display:grid;gap:16px}
-    @media(min-width:900px){.grid.two{grid-template-columns:1.2fr .8fr}}
-    section{padding:48px 24px;border-top:1px solid rgba(255,255,255,.06)}
-    h2{margin:0 0 12px}
-    .card{background:var(--card);border:1px solid rgba(255,255,255,.06);border-radius:16px;padding:18px}
-    .stack{display:flex;flex-direction:column;gap:10px}
+    body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif}
+
+    /* ====== LAYOUT ====== */
+    .app{
+      min-height:100dvh;
+      display:grid;
+      grid-template-columns: 260px 1fr;
+      gap:0;
+    }
+    .sidebar{
+      background:linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,0));
+      border-right:1px solid var(--line);
+      padding:28px 22px;
+      display:flex;
+      flex-direction:column;
+      gap:28px;
+      position:sticky; top:0; height:100dvh;
+    }
+    .brand{
+      display:flex; align-items:center; gap:14px;
+    }
+    .avatar{
+      width:56px; height:56px; border-radius:50%;
+      background:#1b1e27;
+      display:grid; place-items:center; overflow:hidden;
+      border:1px solid var(--line);
+    }
+    .avatar img{width:100%; height:100%; object-fit:cover}
+    .brand h1{font-size:16px; margin:0; line-height:1.2;}
+    .sub{font-size:12px; color:var(--muted); margin-top:4px; display:flex; align-items:center; gap:6px}
+    .w-badge{display:inline-grid; place-items:center; width:18px; height:18px; border-radius:4px; background:#fff; color:#000; font-weight:700; font-size:11px}
+
+    .nav{display:flex; flex-direction:column; gap:10px; margin-top:8px}
+    .nav a{
+      display:flex; align-items:center; gap:12px;
+      padding:10px 12px; border-radius:10px; color:var(--ink); text-decoration:none;
+      border:1px solid transparent;
+    }
+    .nav a:hover{background:rgba(255,255,255,.04); border-color:var(--line)}
+    .nav svg{width:18px; height:18px; opacity:.9}
+
+    .main{padding:28px; max-width:var(--maxW); width:100%; margin:0 auto}
+    .topbar{
+      display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:26px;
+    }
+    .subscribe{color:#9db4ff; text-decoration:none; font-weight:600}
+    .subscribe:hover{text-decoration:underline}
+
+    .hero h2{font-size:clamp(26px,3.8vw,44px); margin:0 0 18px}
+    /* ====== GRID TILES ====== */
+    .tiles{
+      position:relative;
+      display:grid;
+      gap:16px;
+      grid-template-columns: 1fr 1fr 1.25fr;
+      grid-auto-rows: 160px;
+    }
+    /* subtle purple “underlines” effect */
+    .tiles::after{
+      content:""; position:absolute; inset:0; pointer-events:none;
+      background:
+        radial-gradient(600px 120px at 50% 72%, rgba(123,92,255,.12), transparent 60%),
+        linear-gradient(0deg, rgba(255,255,255,.03), rgba(255,255,255,0));
+      border-radius:16px;
+      mix-blend:screen;
+    }
+
+    .tile{
+      position:relative;
+      background:var(--card);
+      border:1px solid var(--line);
+      border-radius:16px;
+      padding:22px;
+      display:flex; align-items:center; justify-content:center;
+      text-align:center;
+    }
+    .tile h3{font-size:36px; margin:0 0 6px}
+    .tile p{margin:0; color:var(--muted)}
     .muted{color:var(--muted)}
-    .pill{display:inline-block;padding:6px 10px;border:1px solid rgba(255,255,255,.12);border-radius:999px;color:var(--muted);font-size:12px}
 
-    /* Playable section */
-    .play-wrap{position:relative;border-radius:16px;overflow:hidden;background:#0e1116;border:1px solid rgba(255,255,255,.08)}
-    .play-aspect{position:relative;width:100%;padding-top:56.25%}
-    .play-embed{position:absolute;inset:0;border:0;width:100%;height:100%}
-    .play-top{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none}
-    .loader{pointer-events:none;background:linear-gradient(90deg, rgba(255,255,255,.06), rgba(255,255,255,.02));padding:10px 14px;border-radius:12px;border:1px solid rgba(255,255,255,.08)}
-    .play-actions{display:flex;gap:10px;margin-top:10px}
+    .tile.big{
+      grid-row: span 2;
+      grid-column: 3;
+      text-align:left; justify-content:flex-start; align-items:flex-start;
+      overflow:hidden;
+    }
+    .tile.big h3{font-size:24px; margin-bottom:10px}
+    .cta{margin-top:16px; display:inline-flex; gap:8px; align-items:center; color:#9db4ff; text-decoration:none; font-weight:600}
+    .cta:hover{text-decoration:underline}
 
-    footer{padding:36px 24px;color:var(--muted)}
+    .partner-face{
+      position:absolute; right:-30px; bottom:-30px;
+      width:280px; height:280px; border-radius:50%;
+      border:1px solid var(--line); overflow:hidden;
+      background:#0e1016;
+      filter:saturate(1.05);
+    }
+    .partner-face img{width:100%; height:100%; object-fit:cover; opacity:.95}
+
+    /* Lower section headers inside grid */
+    .section-card{
+      background:var(--panel);
+      border:1px solid var(--line);
+      border-radius:16px; padding:22px;
+    }
+    .section-card h4{margin:0 0 8px; font-size:22px}
+    .viewall{color:#9db4ff; font-weight:600; text-decoration:none}
+    .viewall:hover{text-decoration:underline}
+
+    /* Responsive */
+    @media (max-width: 1020px){
+      .app{grid-template-columns: 84px 1fr}
+      .brand h1,.sub{display:none}
+      .avatar{width:44px;height:44px}
+      .nav a span{display:none}
+      .nav a{justify-content:center}
+      .main{padding:20px}
+      .tiles{grid-template-columns: 1fr; grid-auto-rows:minmax(140px,auto)}
+      .tile.big{grid-column:auto; grid-row:auto}
+      .partner-face{right:-18px; bottom:-18px; width:180px; height:180px}
+    }
   </style>
 </head>
 <body>
-  <header>
-    <nav class="container">
-      <div class="brand">Ketevan Khuturidze</div>
-      <div class="links">
-        <a href="#about">About</a>
-        <a href="#projects">Projects</a>
-        <a href="#play">Play</a>
-        <a href="#contact">Contact</a>
-        <a class="btn" href="assets/Ketevan Khuturidze.pdf" download>Download CV</a>
+  <div class="app">
+    <!-- ========== SIDEBAR ========== -->
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="avatar">
+          <!-- replace with your headshot if you want -->
+          <!-- <img src="me.jpg" alt=""> -->
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="4" stroke="#b6bdcc" /><path d="M4 20c0-4 4-6 8-6s8 2 8 6" stroke="#b6bdcc"/></svg>
+        </div>
+        <div>
+          <h1>LEVELFLOW</h1>
+          <div class="sub"><span class="w-badge">W</span> Professional Partner</div>
+        </div>
       </div>
-    </nav>
-  </header>
 
-  <main>
-    <section class="hero container grid two" id="home">
-      <div>
-        <h1>Designer–Developer building playful systems</h1>
-        <p>Short intro about you: game design, Unity development, 3D art. Shipped titles like Lumber Chopper (22m+ downloads), Hotel Manager, Farm Manager, Unity expert, in love with building satisfying experiences.</p>
-        <div class="stack">
-          <div class="pill">Unity • C# • UI  • Animation • Optimization • URP • WebGL • Git</div>
-          <div class="play-actions">
-            <a class="btn" href="#play">Play my portfolio</a>
-            <a href="#projects">See projects →</a>
+      <nav class="nav">
+        <a href="#home" aria-label="Home">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M3 11L12 4l9 7v8a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1v-8z" stroke="#cfd4e3"/></svg>
+          <span>Home</span>
+        </a>
+        <a href="#projects">
+          <svg viewBox="0 0 24 24" fill="none"><rect x="3" y="4" width="18" height="6" rx="1" stroke="#cfd4e3"/><rect x="3" y="14" width="18" height="6" rx="1" stroke="#cfd4e3"/></svg>
+          <span>Projects</span>
+        </a>
+        <a href="#videos">
+          <svg viewBox="0 0 24 24" fill="none"><rect x="3" y="5" width="18" height="14" rx="2" stroke="#cfd4e3"/><path d="M15 12l-6 3V9l6 3z" fill="#cfd4e3"/></svg>
+          <span>Videos</span>
+        </a>
+        <a href="#about">
+          <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="7" r="4" stroke="#cfd4e3"/><path d="M4 21c0-4.5 4-7 8-7s8 2.5 8 7" stroke="#cfd4e3"/></svg>
+          <span>About</span>
+        </a>
+        <a href="#contact">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M21 8v8a2 2 0 0 1-2 2H5l-2 2V6a2 2 0 0 1 2-2h10" stroke="#cfd4e3"/><path d="M15 3h6v6" stroke="#cfd4e3"/></svg>
+          <span>Contact</span>
+        </a>
+      </nav>
+    </aside>
+
+    <!-- ========== MAIN ========== -->
+    <main class="main" id="home">
+      <div class="topbar">
+        <div></div>
+        <a class="subscribe" href="#">Subscribe Now →</a>
+      </div>
+
+      <section class="hero">
+        <h2>Webflow Development<br>Subscription Services</h2>
+
+        <div class="tiles">
+          <!-- Row 1 -->
+          <div class="tile">
+            <div>
+              <h3>100+</h3>
+              <p>Completed Projects</p>
+            </div>
+          </div>
+
+          <div class="tile">
+            <div>
+              <h3>Webflow</h3>
+              <p>Expert</p>
+            </div>
+          </div>
+
+          <div class="tile big">
+            <div>
+              <h3>Your ultimate webflow partner</h3>
+              <p class="muted">
+                Eliminate the hassle of dealing with developers lacking design sensibility,
+                and trust in someone who can realize your ideas as you've imagined them.
+              </p>
+              <a href="#contact" class="cta">Get in touch →</a>
+            </div>
+            <div class="partner-face" aria-hidden="true">
+              <!-- swap to your own image if desired -->
+              <img src="https://images.unsplash.com/photo-1519340241574-2cec6aef0c01?q=80&w=600&auto=format&fit=crop" alt="">
+            </div>
+          </div>
+
+          <!-- Row 2 -->
+          <div class="tile">
+            <div>
+              <h3>50+</h3>
+              <p>Satisfied Clients</p>
+            </div>
+          </div>
+
+          <div class="tile">
+            <div>
+              <h3>6</h3>
+              <p>Years Design Experience</p>
+            </div>
+          </div>
+
+          <!-- Lower section cards (span full width on their columns) -->
+          <div class="section-card">
+            <h4>Featured Projects</h4>
+            <a class="viewall" href="#projects">View all →</a>
+          </div>
+
+          <div class="section-card">
+            <h4>Trusted by</h4>
+            <p class="muted">Logos and client list here.</p>
           </div>
         </div>
-      </div>
-      <div class="card">
-        <strong>Highlights</strong>
-        <ul>
-          <li>⚙️ Built systems: level generators, state machines, economy, UI animations</li>
-          <li>🎮 Genres: idle/tycoon, management, arcade</li>
-          <li>🚀 Performance: 120 FPS on S22, URP mobile lighting</li>
-        </ul>
-      </div>
-    </section>
+      </section>
 
-    <section id="about" class="container">
-      <h2>About me</h2>
-      <div class="grid two">
-        <div class="card">
-          <p>Write a concise bio (5–7 lines). What problems do you solve, what tools do you master, and what impact did you have on shipped projects? Mention collaborations and publishers if relevant.</p>
-        </div>
-        <div class="card">
-          <strong>Expertise</strong>
-          <ul>
-            <li>Gameplay & systems design</li>
-            <li>Unity (URP, mobile optimization)</li>
-            <li>3D assets & UI/UX for games</li>
-          </ul>
-        </div>
-      </div>
-    </section>
-
-    <section id="projects" class="container">
-      <h2>Projects</h2>
-      <div class="grid">
-        <div class="card">
-          <strong>Project A</strong>
+      <!-- optional extra content sections you already had -->
+      <section id="projects" style="margin-top:28px">
+        <div class="section-card" style="margin-bottom:16px">
+          <h4>Project A</h4>
           <p class="muted">One-liner about genre, role, and results.</p>
-          <a href="#" target="_blank">Steam/itch/Play Store →</a>
         </div>
-        <div class="card">
-          <strong>Project B</strong>
+        <div class="section-card" style="margin-bottom:16px">
+          <h4>Project B</h4>
           <p class="muted">One-liner about your contribution and what’s unique.</p>
-          <a href="#" target="_blank">Trailer →</a>
         </div>
-        <div class="card">
-          <strong>Project C</strong>
-          <p class="muted">Brief impact/metrics if possible.</p>
-          <a href="#" target="_blank">Case study →</a>
+      </section>
+
+      <section id="contact" style="margin-top:28px">
+        <div class="section-card">
+          <h4>Get in touch</h4>
+          <p class="muted">Email: <a href="mailto:you@example.com">you@example.com</a></p>
         </div>
-      </div>
-    </section>
-
-    <section id="play" class="container">
-      <h2>Playable portfolio</h2>
-      <p class="muted">Move with <strong>A/D</strong> or <strong>←/→</strong>, <strong>Space</strong> to jump. Enter a portal to open a project.</p>
-      <div class="play-wrap">
-        <div class="play-aspect">
-          <!-- IMPORTANT: place your Unity WebGL build at /game/index.html with Build/ & TemplateData/ alongside -->
-          <iframe id="portfolioGame" class="play-embed" src="game/index.html" title="Playable Portfolio" loading="lazy" allow="fullscreen; gamepad; xr-spatial-tracking;" referrerpolicy="no-referrer"></iframe>
-          <div id="loader" class="play-top">
-            <div class="loader">Loading WebGL…</div>
-          </div>
-        </div>
-      </div>
-      <div class="play-actions">
-        <a class="btn" href="game/index.html" target="_blank" rel="noopener">Open full screen</a>
-        <a href="#contact">Contact me →</a>
-      </div>
-    </section>
-
-    <section id="contact" class="container">
-      <h2>Contact</h2>
-      <div class="grid two">
-        <div class="card">
-          <p>Email: <a href="mailto:you@example.com">you@example.com</a></p>
-          <p>LinkedIn: <a href="#" target="_blank" rel="noopener">/in/your-handle</a></p>
-          <p>itch.io / Steam: <a href="#" target="_blank" rel="noopener">yourpage</a></p>
-        </div>
-        <form class="card" name="contact" netlify>
-          <input type="hidden" name="form-name" value="contact" />
-          <div class="stack">
-            <label>Name <br><input name="name" required style="width:100%;padding:10px;border-radius:10px;border:1px solid rgba(255,255,255,.15);background:#0b0e14;color:#e6e8ef"></label>
-            <label>Email <br><input name="email" type="email" required style="width:100%;padding:10px;border-radius:10px;border:1px solid rgba(255,255,255,.15);background:#0b0e14;color:#e6e8ef"></label>
-            <label>Message <br><textarea name="message" rows="4" required style="width:100%;padding:10px;border-radius:10px;border:1px solid rgba(255,255,255,.15);background:#0b0e14;color:#e6e8ef"></textarea></label>
-            <button class="btn" type="submit">Send</button>
-          </div>
-        </form>
-      </div>
-    </section>
-  </main>
-
-  <footer class="container">© <span id="y"></span> Your Name. Built with Unity WebGL & GitHub Pages.</footer>
-
-  <script>
-    // year
-    document.getElementById('y').textContent = new Date().getFullYear();
-    // hide loader once iframe has content
-    const iframe = document.getElementById('portfolioGame');
-    const loader = document.getElementById('loader');
-    iframe.addEventListener('load', ()=> loader.style.display = 'none');
-  </script>
+      </section>
+    </main>
+  </div>
 </body>
 </html>
