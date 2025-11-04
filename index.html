@@ -3,142 +3,92 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Webflow Development — Subscription Services</title>
+  <title>Ketevan Khuturidze — Game Developer</title>
+  <meta name="description" content="Ketevan Khuturidze — Game Developer specializing in Unity, C#, and JavaScript/TypeScript — crafting high-performance games with Pixi.js, HTML5, and modern web tech." />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
     :root{
-      --bg:#0b0c10;
-      --panel:#0f1117;
-      --card:#11131a;
-      --ink:#e7e9ef;
-      --muted:#a6adbb;
-      --line:rgba(255,255,255,.06);
-      --blue:#5a7bff;
-      --purple:#7b5cff;
+      --bg:#0b0c10;         /* page background */
+      --panel:#0f1117;      /* subtle section bg */
+      --card:#11131a;       /* card bg */
+      --ink:#e7e9ef;        /* primary text */
+      --muted:#a6adbb;      /* secondary text */
+      --line:rgba(255,255,255,.08);
+      --accent:#8aa2ff;     /* links & accents */
       --maxW:1200px;
     }
     *{box-sizing:border-box}
     html{scroll-behavior:smooth}
     body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif}
+    a{color:var(--accent);text-decoration:none}
+    a:hover{text-decoration:underline}
 
     /* ====== LAYOUT ====== */
-    .app{
-      min-height:100dvh;
-      display:grid;
-      grid-template-columns: 260px 1fr;
-      gap:0;
-    }
-    .sidebar{
-      background:linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,0));
-      border-right:1px solid var(--line);
-      padding:28px 22px;
-      display:flex;
-      flex-direction:column;
-      gap:28px;
-      position:sticky; top:0; height:100dvh;
-    }
-    .brand{
-      display:flex; align-items:center; gap:14px;
-    }
-    .avatar{
-      width:56px; height:56px; border-radius:50%;
-      background:#1b1e27;
-      display:grid; place-items:center; overflow:hidden;
-      border:1px solid var(--line);
-    }
-    .avatar img{width:100%; height:100%; object-fit:cover}
-    .brand h1{font-size:16px; margin:0; line-height:1.2;}
-    .sub{font-size:12px; color:var(--muted); margin-top:4px; display:flex; align-items:center; gap:6px}
-    .w-badge{display:inline-grid; place-items:center; width:18px; height:18px; border-radius:4px; background:#fff; color:#000; font-weight:700; font-size:11px}
+    .app{min-height:100dvh;display:grid;grid-template-columns:260px 1fr}
+    .sidebar{background:linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,0));border-right:1px solid var(--line);padding:28px 22px;display:flex;flex-direction:column;gap:22px;position:sticky;top:0;height:100dvh}
 
-    .nav{display:flex; flex-direction:column; gap:10px; margin-top:8px}
-    .nav a{
-      display:flex; align-items:center; gap:12px;
-      padding:10px 12px; border-radius:10px; color:var(--ink); text-decoration:none;
-      border:1px solid transparent;
-    }
-    .nav a:hover{background:rgba(255,255,255,.04); border-color:var(--line)}
-    .nav svg{width:18px; height:18px; opacity:.9}
+    .brand{display:flex;align-items:center;gap:14px}
+    .avatar{width:56px;height:56px;border-radius:50%;background:#1b1e27;display:grid;place-items:center;overflow:hidden;border:1px solid var(--line)}
+    .avatar img{width:100%;height:100%;object-fit:cover}
+    .brand h1{font-size:16px;margin:0;line-height:1.2}
+    .sub{font-size:12px;color:var(--muted);margin-top:4px}
 
-    .main{padding:28px; max-width:var(--maxW); width:100%; margin:0 auto}
-    .topbar{
-      display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:26px;
-    }
-    .subscribe{color:#9db4ff; text-decoration:none; font-weight:600}
-    .subscribe:hover{text-decoration:underline}
+    .contact-mini{display:grid;gap:10px;margin-top:6px}
+    .contact-mini a{display:flex;gap:8px;align-items:center;color:var(--ink);text-decoration:none;padding:8px 10px;border:1px solid transparent;border-radius:10px}
+    .contact-mini a:hover{background:rgba(255,255,255,.05);border-color:var(--line)}
+    .contact-mini svg{width:16px;height:16px;opacity:.9}
 
-    .hero h2{font-size:clamp(26px,3.8vw,44px); margin:0 0 18px}
-    /* ====== GRID TILES ====== */
-    .tiles{
-      position:relative;
-      display:grid;
-      gap:16px;
-      grid-template-columns: 1fr 1fr 1.25fr;
-      grid-auto-rows: 160px;
-    }
-    /* subtle purple “underlines” effect */
-    .tiles::after{
-      content:""; position:absolute; inset:0; pointer-events:none;
-      background:
-        radial-gradient(600px 120px at 50% 72%, rgba(123,92,255,.12), transparent 60%),
-        linear-gradient(0deg, rgba(255,255,255,.03), rgba(255,255,255,0));
-      border-radius:16px;
-      mix-blend:screen;
-    }
+    .btn{display:inline-flex;align-items:center;justify-content:center;padding:10px 12px;border-radius:12px;background:var(--accent);color:#0b0c10;font-weight:700;border:1px solid transparent}
+    .btn:hover{filter:brightness(1.05)}
 
-    .tile{
-      position:relative;
-      background:var(--card);
-      border:1px solid var(--line);
-      border-radius:16px;
-      padding:22px;
-      display:flex; align-items:center; justify-content:center;
-      text-align:center;
-    }
-    .tile h3{font-size:36px; margin:0 0 6px}
-    .tile p{margin:0; color:var(--muted)}
-    .muted{color:var(--muted)}
+    .nav{display:flex;flex-direction:column;gap:8px;margin-top:8px}
+    .nav a{display:flex;align-items:center;gap:12px;padding:10px 12px;border-radius:10px;color:var(--ink);text-decoration:none;border:1px solid transparent}
+    .nav a:hover{background:rgba(255,255,255,.04);border-color:var(--line)}
+    .nav svg{width:18px;height:18px;opacity:.9}
 
-    .tile.big{
-      grid-row: span 2;
-      grid-column: 3;
-      text-align:left; justify-content:flex-start; align-items:flex-start;
-      overflow:hidden;
-    }
-    .tile.big h3{font-size:24px; margin-bottom:10px}
-    .cta{margin-top:16px; display:inline-flex; gap:8px; align-items:center; color:#9db4ff; text-decoration:none; font-weight:600}
-    .cta:hover{text-decoration:underline}
+    .main{padding:28px;max-width:var(--maxW);width:100%;margin:0 auto}
+    .topbar{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:26px}
 
-    .partner-face{
-      position:absolute; right:-30px; bottom:-30px;
-      width:280px; height:280px; border-radius:50%;
-      border:1px solid var(--line); overflow:hidden;
-      background:#0e1016;
-      filter:saturate(1.05);
-    }
-    .partner-face img{width:100%; height:100%; object-fit:cover; opacity:.95}
+    /* ====== HERO ====== */
+    .hero{margin-bottom:22px}
+    .hero h2{font-size:clamp(26px,3.6vw,42px);margin:0 0 10px}
+    .hero p{margin:0;color:var(--muted);max-width:70ch}
 
-    /* Lower section headers inside grid */
-    .section-card{
-      background:var(--panel);
-      border:1px solid var(--line);
-      border-radius:16px; padding:22px;
-    }
-    .section-card h4{margin:0 0 8px; font-size:22px}
-    .viewall{color:#9db4ff; font-weight:600; text-decoration:none}
-    .viewall:hover{text-decoration:underline}
+    /* ====== PROJECTS GALLERY (horizontal, auto-scroll on hover) ====== */
+    .gallery-wrap{position:relative;margin:22px 0 10px}
+    .gallery{display:flex;gap:16px;overflow-x:auto;scrollbar-width:none;padding-bottom:6px}
+    .gallery::-webkit-scrollbar{display:none}
+    .card{min-width:320px;max-width:360px;background:var(--card);border:1px solid var(--line);border-radius:16px;overflow:hidden;display:flex;flex-direction:column}
+    .card img{width:100%;height:200px;object-fit:cover;background:#0e1116}
+    .card-body{padding:14px}
+    .card-title{font-weight:700;margin:0 0 6px}
+    .card-meta{display:flex;gap:8px;flex-wrap:wrap;margin:6px 0}
+    .pill{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);border-radius:999px;padding:6px 10px;font-size:12px;color:var(--muted)}
+    .card-links{display:flex;gap:10px;margin-top:8px}
 
-    /* Responsive */
+    .hover-hint{position:absolute;right:6px;top:-18px;font-size:12px;color:var(--muted)}
+
+    /* ====== SECTIONS ====== */
+    section{margin-top:28px}
+    .section-card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:22px}
+    .section-card h3{margin:0 0 10px}
+    .stack{display:flex;flex-direction:column;gap:10px}
+    .grid{display:grid;gap:16px}
+    @media(min-width:860px){.grid.two{grid-template-columns:1fr 1fr}}
+
+    /* reveal on scroll */
+    .reveal{opacity:0;transform:translateY(12px);transition:opacity .5s ease, transform .5s ease}
+    .reveal.show{opacity:1;transform:none}
+
+    /* responsive sidebar collapse */
     @media (max-width: 1020px){
-      .app{grid-template-columns: 84px 1fr}
+      .app{grid-template-columns:84px 1fr}
       .brand h1,.sub{display:none}
       .avatar{width:44px;height:44px}
+      .contact-mini{display:none}
       .nav a span{display:none}
       .nav a{justify-content:center}
       .main{padding:20px}
-      .tiles{grid-template-columns: 1fr; grid-auto-rows:minmax(140px,auto)}
-      .tile.big{grid-column:auto; grid-row:auto}
-      .partner-face{right:-18px; bottom:-18px; width:180px; height:180px}
     }
   </style>
 </head>
@@ -147,129 +97,369 @@
     <!-- ========== SIDEBAR ========== -->
     <aside class="sidebar">
       <div class="brand">
-        <div class="avatar">
-          <!-- replace with your headshot if you want -->
-          <!-- <img src="me.jpg" alt=""> -->
+        <div class="avatar"><!-- Optional headshot -->
+          <!-- <img src="assets/keti.jpg" alt="Ketevan Khuturidze"> -->
           <svg width="28" height="28" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="4" stroke="#b6bdcc" /><path d="M4 20c0-4 4-6 8-6s8 2 8 6" stroke="#b6bdcc"/></svg>
         </div>
         <div>
-          <h1>LEVELFLOW</h1>
-          <div class="sub"><span class="w-badge">W</span> Professional Partner</div>
+          <h1>KETEVAN KHUTURIDZE</h1>
+          <div class="sub">Game Developer</div>
         </div>
       </div>
 
+      <div class="contact-mini">
+        <a href="mailto:ketevankhuturidze@gmail.com"><svg viewBox="0 0 24 24" fill="none"><path d="M4 6h16a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1zm0 0 8 6 8-6" stroke="#cfd4e3"/></svg>ketevankhuturidze@gmail.com</a>
+        <a href="tel:+995505555766"><svg viewBox="0 0 24 24" fill="none"><path d="M6 4l3 2-2 3c1.5 2.5 3.5 4.5 6 6l3-2 2 3-2 2c-.5.5-1.5.5-2 .5C9 19 5 15 4.5 12c0-.5 0-1.5.5-2L6 8 4 5c0-.5 0-1 .5-1.5S5.5 3.5 6 4z" stroke="#cfd4e3"/></svg>+995 505 555 766</a>
+        <a href="https://www.linkedin.com/in/ketevankh/" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none"><path d="M6 9h3v9H6zM7.5 6a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3zM11 9h3v1.5c.5-1 1.7-1.7 3-1.7 3 0 3.5 2 3.5 4.6V18h-3v-4.3c0-1.2 0-2.7-1.7-2.7s-2 1.3-2 2.6V18H11z" stroke="#cfd4e3"/></svg>LinkedIn</a>
+        <a class="btn" href="assets/CV_KetevanKhuturidze.pdf" download>Download CV</a>
+      </div>
+
       <nav class="nav">
-        <a href="#home" aria-label="Home">
-          <svg viewBox="0 0 24 24" fill="none"><path d="M3 11L12 4l9 7v8a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1v-8z" stroke="#cfd4e3"/></svg>
-          <span>Home</span>
-        </a>
-        <a href="#projects">
-          <svg viewBox="0 0 24 24" fill="none"><rect x="3" y="4" width="18" height="6" rx="1" stroke="#cfd4e3"/><rect x="3" y="14" width="18" height="6" rx="1" stroke="#cfd4e3"/></svg>
-          <span>Projects</span>
-        </a>
-        <a href="#videos">
-          <svg viewBox="0 0 24 24" fill="none"><rect x="3" y="5" width="18" height="14" rx="2" stroke="#cfd4e3"/><path d="M15 12l-6 3V9l6 3z" fill="#cfd4e3"/></svg>
-          <span>Videos</span>
-        </a>
-        <a href="#about">
-          <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="7" r="4" stroke="#cfd4e3"/><path d="M4 21c0-4.5 4-7 8-7s8 2.5 8 7" stroke="#cfd4e3"/></svg>
-          <span>About</span>
-        </a>
-        <a href="#contact">
-          <svg viewBox="0 0 24 24" fill="none"><path d="M21 8v8a2 2 0 0 1-2 2H5l-2 2V6a2 2 0 0 1 2-2h10" stroke="#cfd4e3"/><path d="M15 3h6v6" stroke="#cfd4e3"/></svg>
-          <span>Contact</span>
-        </a>
+        <a href="#home" aria-label="Home"><svg viewBox="0 0 24 24" fill="none"><path d="M3 11L12 4l9 7v8a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1v-8z" stroke="#cfd4e3"/></svg><span>Home</span></a>
+        <a href="#projects"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="4" width="18" height="6" rx="1" stroke="#cfd4e3"/><rect x="3" y="14" width="18" height="6" rx="1" stroke="#cfd4e3"/></svg><span>Projects</span></a>
+        <a href="#about"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="7" r="4" stroke="#cfd4e3"/><path d="M4 21c0-4.5 4-7 8-7s8 2.5 8 7" stroke="#cfd4e3"/></svg><span>About</span></a>
+        <a href="#experience"><svg viewBox="0 0 24 24" fill="none"><path d="M3 7h18v10H3z" stroke="#cfd4e3"/><path d="M9 7V5a3 3 0 0 1 6 0v2" stroke="#cfd4e3"/></svg><span>Experience</span></a>
+        <a href="#education"><svg viewBox="0 0 24 24" fill="none"><path d="M3 8l9-4 9 4-9 4-9-4z" stroke="#cfd4e3"/><path d="M21 10v4l-9 4-9-4v-4" stroke="#cfd4e3"/></svg><span>Education</span></a>
+        <a href="#skills"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="#cfd4e3"/><path d="M12 7v5l3 3" stroke="#cfd4e3"/></svg><span>Skills</span></a>
+        <a href="#contact"><svg viewBox="0 0 24 24" fill="none"><path d="M21 8v8a2 2 0 0 1-2 2H5l-2 2V6a2 2 0 0 1 2-2h10" stroke="#cfd4e3"/><path d="M15 3h6v6" stroke="#cfd4e3"/></svg><span>Contact</span></a>
       </nav>
     </aside>
 
     <!-- ========== MAIN ========== -->
     <main class="main" id="home">
-      <div class="topbar">
-        <div></div>
-        <a class="subscribe" href="#">Subscribe Now →</a>
-      </div>
+      <div class="topbar"></div>
 
-      <section class="hero">
-        <h2>Webflow Development<br>Subscription Services</h2>
-
-        <div class="tiles">
-          <!-- Row 1 -->
-          <div class="tile">
-            <div>
-              <h3>100+</h3>
-              <p>Completed Projects</p>
-            </div>
-          </div>
-
-          <div class="tile">
-            <div>
-              <h3>Webflow</h3>
-              <p>Expert</p>
-            </div>
-          </div>
-
-          <div class="tile big">
-            <div>
-              <h3>Your ultimate webflow partner</h3>
-              <p class="muted">
-                Eliminate the hassle of dealing with developers lacking design sensibility,
-                and trust in someone who can realize your ideas as you've imagined them.
-              </p>
-              <a href="#contact" class="cta">Get in touch →</a>
-            </div>
-            <div class="partner-face" aria-hidden="true">
-              <!-- swap to your own image if desired -->
-              <img src="https://images.unsplash.com/photo-1519340241574-2cec6aef0c01?q=80&w=600&auto=format&fit=crop" alt="">
-            </div>
-          </div>
-
-          <!-- Row 2 -->
-          <div class="tile">
-            <div>
-              <h3>50+</h3>
-              <p>Satisfied Clients</p>
-            </div>
-          </div>
-
-          <div class="tile">
-            <div>
-              <h3>6</h3>
-              <p>Years Design Experience</p>
-            </div>
-          </div>
-
-          <!-- Lower section cards (span full width on their columns) -->
-          <div class="section-card">
-            <h4>Featured Projects</h4>
-            <a class="viewall" href="#projects">View all →</a>
-          </div>
-
-          <div class="section-card">
-            <h4>Trusted by</h4>
-            <p class="muted">Logos and client list here.</p>
-          </div>
-        </div>
+      <!-- HERO -->
+      <section class="hero reveal">
+        <h2>Ketevan Khuturidze</h2>
+        <p><strong>Game Developer specializing in Unity, C#, and JavaScript/TypeScript — crafting high-performance games with Pixi.js, HTML5, and modern web tech.</strong></p>
       </section>
 
-      <!-- optional extra content sections you already had -->
-      <section id="projects" style="margin-top:28px">
-        <div class="section-card" style="margin-bottom:16px">
-          <h4>Project A</h4>
-          <p class="muted">One-liner about genre, role, and results.</p>
-        </div>
-        <div class="section-card" style="margin-bottom:16px">
-          <h4>Project B</h4>
-          <p class="muted">One-liner about your contribution and what’s unique.</p>
-        </div>
-      </section>
-
-      <section id="contact" style="margin-top:28px">
+      <!-- PROJECTS GALLERY -->
+      <section id="projects" class="reveal">
         <div class="section-card">
-          <h4>Get in touch</h4>
-          <p class="muted">Email: <a href="mailto:you@example.com">you@example.com</a></p>
+          <h3>Featured Projects</h3>
+          <div class="hover-hint">hover to auto-scroll →</div>
+          <div class="gallery-wrap">
+            <div class="gallery" id="projectGallery">
+
+              <!-- Card: Lumber Chopper (Google Play) -->
+              <article class="card">
+                <img src="assets/lumber-chopper.jpg" alt="Lumber Chopper cover" />
+                <div class="card-body">
+                  <h4 class="card-title">Lumber Chopper</h4>
+                  <div class="card-meta">
+                    <span class="pill">Mobile • Simulation / Idle</span>
+                    <span class="pill">Unity • C#</span>
+                  </div>
+                  <div class="stack">
+                    <small class="muted">Prototype → Launch → Live ops. 20M+ downloads, 4.6★. Optimized low-end FPS; UI polish with DOTween; monetization & analytics.</small>
+                    <div class="card-links">
+                      <a class="btn" href="https://play.google.com/store/apps/details?id=dasi.prs2.lumberchopper&hl=en" target="_blank" rel="noopener">Google Play →</a>
+                    </div>
+                  </div>
+                </div>
+              </article>
+
+              <!-- Card: Farm Manager (Google Play) -->
+              <article class="card">
+                <img src="assets/farm-manager.jpg" alt="Farm Manager cover" />
+                <div class="card-body">
+                  <h4 class="card-title">Farm Manager</h4>
+                  <div class="card-meta">
+                    <span class="pill">Mobile • Simulation</span>
+                    <span class="pill">Unity • C#</span>
+                  </div>
+                  <div class="stack">
+                    <small class="muted">In development toward publishing. Retention +13 pts; improved Galaxy A12 FPS 12→45.</small>
+                    <div class="card-links">
+                      <a class="btn" href="https://play.google.com/store/apps/details?id=dasi.prs5.farmmanager&hl=en" target="_blank" rel="noopener">Google Play →</a>
+                    </div>
+                  </div>
+                </div>
+              </article>
+
+              <!-- Card: Hotel Manager (Google Play) -->
+              <article class="card">
+                <img src="assets/hotel-manager.jpg" alt="Hotel Manager cover" />
+                <div class="card-body">
+                  <h4 class="card-title">Hotel Manager</h4>
+                  <div class="card-meta">
+                    <span class="pill">Mobile • Simulation</span>
+                    <span class="pill">Unity • C#</span>
+                  </div>
+                  <div class="stack">
+                    <div class="card-links">
+                      <a class="btn" href="https://play.google.com/store/apps/details?id=dasi.prs3.hotelmanager&hl=en" target="_blank" rel="noopener">Google Play →</a>
+                    </div>
+                  </div>
+                </div>
+              </article>
+
+              <!-- Card: Aquarium Shop (Google Play) -->
+              <article class="card">
+                <img src="assets/aquarium-shop.jpg" alt="Aquarium Shop cover" />
+                <div class="card-body">
+                  <h4 class="card-title">Aquarium Shop</h4>
+                  <div class="card-meta">
+                    <span class="pill">Mobile • Simulation</span>
+                    <span class="pill">Unity • C#</span>
+                  </div>
+                  <div class="stack">
+                    <div class="card-links">
+                      <a class="btn" href="https://play.google.com/store/apps/details?id=dasi.prs4.aquariumshop&hl=en" target="_blank" rel="noopener">Google Play →</a>
+                    </div>
+                  </div>
+                </div>
+              </article>
+
+              <!-- Card: Port Manager (Google Play) -->
+              <article class="card">
+                <img src="assets/port-manager.jpg" alt="Port Manager cover" />
+                <div class="card-body">
+                  <h4 class="card-title">Port Manager</h4>
+                  <div class="card-meta">
+                    <span class="pill">Mobile • Management</span>
+                    <span class="pill">Unity • C#</span>
+                  </div>
+                  <div class="stack">
+                    <div class="card-links">
+                      <a class="btn" href="https://play.google.com/store/apps/details?id=dasi.prs1.portmanager&hl=en" target="_blank" rel="noopener">Google Play →</a>
+                    </div>
+                  </div>
+                </div>
+              </article>
+
+              <!-- Card: Tserilebi (Google Play) -->
+              <article class="card">
+                <img src="assets/tserilebi.jpg" alt="Tserilebi cover" />
+                <div class="card-body">
+                  <h4 class="card-title">Tserilebi</h4>
+                  <div class="card-meta">
+                    <span class="pill">Mobile • Puzzle</span>
+                    <span class="pill">Unity • C#</span>
+                  </div>
+                  <div class="stack">
+                    <div class="card-links">
+                      <a class="btn" href="https://play.google.com/store/apps/details?id=com.geolab.tserilebi&hl=en" target="_blank" rel="noopener">Google Play →</a>
+                    </div>
+                  </div>
+                </div>
+              </article>
+
+              <!-- Card: Dasi Library Manager (Poki) -->
+              <article class="card">
+                <img src="assets/dasi-library-manager.jpg" alt="Dasi Library Manager cover" />
+                <div class="card-body">
+                  <h4 class="card-title">Dasi Library Manager</h4>
+                  <div class="card-meta">
+                    <span class="pill">Web • Management</span>
+                    <span class="pill">JS/TS • Pixi.js</span>
+                  </div>
+                  <div class="stack">
+                    <div class="card-links">
+                      <a class="btn" href="https://poki.com/en/g/dasi-library-manager" target="_blank" rel="noopener">Play on Poki →</a>
+                    </div>
+                  </div>
+                </div>
+              </article>
+
+              <!-- Card: Dasi Wild West (Poki) -->
+              <article class="card">
+                <img src="assets/dasi-wild-west.jpg" alt="Dasi Wild West cover" />
+                <div class="card-body">
+                  <h4 class="card-title">Dasi Wild West</h4>
+                  <div class="card-meta">
+                    <span class="pill">Web • Arcade</span>
+                    <span class="pill">JS/TS • Pixi.js</span>
+                  </div>
+                  <div class="stack">
+                    <div class="card-links">
+                      <a class="btn" href="https://poki.com/en/g/dasi-wild-west" target="_blank" rel="noopener">Play on Poki →</a>
+                    </div>
+                  </div>
+                </div>
+              </article>
+
+              <!-- Card: The Great Bubble Wars (itch.io) -->
+              <article class="card">
+                <img src="assets/the-great-bubble-wars.jpg" alt="The Great Bubble Wars cover" />
+                <div class="card-body">
+                  <h4 class="card-title">The Great Bubble Wars</h4>
+                  <div class="card-meta">
+                    <span class="pill">Local Multiplayer • Strategy</span>
+                    <span class="pill">Unity • 48h Jam</span>
+                  </div>
+                  <div class="stack">
+                    <small class="muted">Global Game Jam 2025 — designed four troop types, strategic control mechanics, and rapid iteration for fun 2‑player battles.</small>
+                    <div class="card-links">
+                      <a class="btn" href="https://pinvadergames.itch.io/the-great-bubble-wars" target="_blank" rel="noopener">Play on itch.io →</a>
+                    </div>
+                  </div>
+                </div>
+              </article>
+
+            </div>
+          </div>
         </div>
+      </section>
+
+      <!-- ABOUT -->
+      <section id="about" class="reveal">
+        <div class="section-card">
+          <h3>About</h3>
+          <p class="muted">I build playful, performant games across mobile and web. My focus is clean gameplay systems, polished UI/UX, and robust optimization — from Unity (URP, DOTween, analytics, IAP/ads) to web stacks (TypeScript, Pixi.js, Canvas, HTML5/CSS3). I enjoy collaborating across art, design, and engineering to ship high‑quality experiences.</p>
+        </div>
+      </section>
+
+      <!-- EXPERIENCE -->
+      <section id="experience" class="reveal">
+        <div class="section-card">
+          <h3>Experience</h3>
+          <div class="grid two">
+            <div class="stack">
+              <strong>OnAim — Game Developer</strong>
+              <small class="muted">Tbilisi, Georgia • Oct 2025 – Present</small>
+              <ul class="muted">
+                <li>Develop and optimize web‑based games on a SaaS gamification platform (Pixi.js, JS/TS, HTML5, CSS3).</li>
+                <li>Implement engaging UI, animations, and responsive layouts with cross‑browser performance.</li>
+                <li>Collaborate with artists, QA, and backend to deliver smooth gameplay and scalable code.</li>
+              </ul>
+            </div>
+            <div class="stack">
+              <strong>Dasi Games — Unity Developer</strong>
+              <small class="muted">Tbilisi, Georgia • Jun 2024 – Sep 2025</small>
+              <ul class="muted">
+                <li><em>Lumber Chopper</em> (Supercent) — 20M+ downloads, 4.6★; Top‑3 Free Simulation; 500K DAU, 1.3h sessions.</li>
+                <li>Prototype → launch → live ops; retention 31%→44%, playtime 2,400→3,400s; $0.49 CPI ad creatives.</li>
+                <li>Optimized low‑end FPS (Galaxy A12: 21→45); URP/mobile lighting; polished UI with DOTween.</li>
+                <li>Monetization (IAP/ads), analytics, content updates, event systems, auto level gen tools.</li>
+                <li><em>Farm Manager</em> (in development) — retention 32%→45%, FPS 12→45 on low‑end devices.</li>
+              </ul>
+            </div>
+            <div class="stack">
+              <strong>KODUA Studio — Game Developer</strong>
+              <small class="muted">—</small>
+              <ul class="muted">
+                <li>Built mobile gameplay features in Unity/C#, integrated file and camera plugins.</li>
+                <li>Implemented animations via Unity Animator and tooling.</li>
+              </ul>
+            </div>
+            <div class="stack">
+              <strong>Ivane Javakhishvili Tbilisi State University — Teaching Assistant (OOP2, C#)</strong>
+              <small class="muted">Sep 2023 – Jan 2024</small>
+              <ul class="muted">
+                <li>Helped create course materials on OOP fundamentals and assisted with grading.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- EDUCATION -->
+      <section id="education" class="reveal">
+        <div class="section-card">
+          <h3>Education & Certifications</h3>
+          <div class="grid two">
+            <div class="stack">
+              <strong>BSc, Computer Science</strong>
+              <small class="muted">Tbilisi State University • Sep 2020 – Mar 2024</small>
+              <strong>FLEX — Future Leaders Exchange Program</strong>
+              <small class="muted">Lennox High School, USA</small>
+            </div>
+            <div class="stack">
+              <strong>.NET Development Program</strong>
+              <small class="muted">EPAM • May 2023 – Feb 2024 • <a href="https://www.epam.com/" target="_blank" rel="noopener">epam.com</a></small>
+              <strong>Unity Certified Associate • Game Development</strong>
+              <small class="muted">GITA — Georgian Information & Technology Agency</small>
+              <strong>Unity Game Development with C#</strong>
+              <small class="muted">GeoLab</small>
+              <strong>Back End Development with C#</strong>
+              <small class="muted">GITA • Jul 2022 – Sep 2022</small>
+              <strong>Graphic Design</strong>
+              <small class="muted">BTU, UN Women, Norwegian MFA • Feb 2022 – Jun 2022</small>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SKILLS -->
+      <section id="skills" class="reveal">
+        <div class="section-card">
+          <h3>Skills & Tools</h3>
+          <div class="grid two">
+            <div class="stack">
+              <strong>Game Dev</strong>
+              <p class="muted">Unity (URP, Mobile Optimization) · C# · DOTween · Analytics · IAP/Ads · Level Tools · UI/UX for Games · Animations</p>
+              <strong>Web / Frontend</strong>
+              <p class="muted">JavaScript / TypeScript · Pixi.js · HTML5 · CSS3 · Canvas · Responsive UI · Performance</p>
+            </div>
+            <div class="stack">
+              <strong>Production</strong>
+              <p class="muted">Git, GitHub, SourceTree, Bitbucket · Debugging · Data Structures & Algorithms · Planning & Leadership</p>
+              <strong>Creative</strong>
+              <p class="muted">Adobe Photoshop, Illustrator, Premiere · Figma · Canva</p>
+              <strong>Languages</strong>
+              <p class="muted">Georgian (Native), English (C1/C2), Russian (B1–C2)</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- CONTACT -->
+      <section id="contact" class="reveal">
+        <div class="section-card">
+          <h3>Contact</h3>
+          <div class="grid two">
+            <div class="stack">
+              <p><strong>Email:</strong> <a href="mailto:ketevankhuturidze@gmail.com">ketevankhuturidze@gmail.com</a></p>
+              <p><strong>Phone:</strong> <a href="tel:+995505555766">+995 505 555 766</a></p>
+              <p><strong>LinkedIn:</strong> <a href="https://www.linkedin.com/in/ketevankh/" target="_blank" rel="noopener">linkedin.com/in/ketevankh</a></p>
+              <p class="muted">Open to freelance/contract or full‑time roles.</p>
+            </div>
+            <div class="stack">
+              <a class="btn" href="assets/CV_KetevanKhuturidze.pdf" download>Download CV</a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="reveal" style="margin:24px 0 8px">
+        <p class="muted">© <span id="y"></span> Ketevan Khuturidze — Tbilisi, Georgia</p>
       </section>
     </main>
   </div>
+
+  <script>
+    // Current year
+    document.getElementById('y').textContent = new Date().getFullYear();
+
+    // Reveal on scroll
+    const io = new IntersectionObserver((entries)=>{
+      entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('show'); io.unobserve(e.target); } });
+    }, {threshold: .15});
+    document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+    // Horizontal gallery auto-scroll on hover
+    (function(){
+      const wrap = document.getElementById('projectGallery');
+      let raf = null; let dir = 1; let speed = 0.7; // px per frame
+      const step = ()=>{
+        wrap.scrollLeft += dir * speed;
+        const max = wrap.scrollWidth - wrap.clientWidth;
+        if(wrap.scrollLeft <= 0) dir = 1;
+        if(wrap.scrollLeft >= max) dir = -1;
+        raf = requestAnimationFrame(step);
+      };
+      wrap.addEventListener('mouseenter', ()=>{ if(!raf) raf = requestAnimationFrame(step); });
+      wrap.addEventListener('mouseleave', ()=>{ cancelAnimationFrame(raf); raf=null; });
+      // allow drag-to-scroll
+      let isDown=false, startX=0, startLeft=0;
+      wrap.addEventListener('pointerdown', (e)=>{ isDown=true; startX=e.clientX; startLeft=wrap.scrollLeft; wrap.setPointerCapture(e.pointerId); });
+      wrap.addEventListener('pointermove', (e)=>{ if(!isDown) return; const dx=e.clientX-startX; wrap.scrollLeft=startLeft-dx; });
+      wrap.addEventListener('pointerup', ()=>{ isDown=false; });
+      wrap.addEventListener('pointercancel', ()=>{ isDown=false; });
+    })();
+  </script>
 </body>
 </html>
