@@ -25,7 +25,14 @@
 
     /* ====== LAYOUT ====== */
     .app{min-height:100dvh;display:grid;grid-template-columns:260px 1fr}
-    .sidebar{background:linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,0));border-right:1px solid var(--line);padding:28px 22px;display:flex;flex-direction:column;gap:22px;position:sticky;top:0;height:100dvh}
+    .sidebar{
+      background:linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,0));
+      border-right:1px solid var(--line);
+      padding:28px 22px;
+      display:flex;flex-direction:column;gap:22px;
+      position:sticky;top:0;height:100dvh;
+      overflow:hidden;              /* clip any hover visuals at the divider */
+    }
 
     .brand{display:flex;align-items:center;gap:14px}
     .avatar{width:56px;height:56px;border-radius:50%;background:#1b1e27;display:grid;place-items:center;overflow:hidden;border:1px solid var(--line)}
@@ -34,16 +41,41 @@
     .sub{font-size:12px;color:var(--muted);margin-top:4px}
 
     .contact-mini{display:grid;gap:10px;margin-top:6px}
-    .contact-mini a{display:flex;gap:8px;align-items:center;color:var(--ink);text-decoration:none;padding:8px 10px;border:1px solid transparent;border-radius:10px}
-    .contact-mini a:hover{background:rgba(255,255,255,.05);border-color:var(--line)}
+    .contact-mini a,
+    .nav a{
+      display:flex;align-items:center;gap:12px;
+      color:var(--ink);text-decoration:none;
+      padding:8px 10px;border-radius:10px;
+      border:1px solid transparent;
+      width:100%;                      /* keep inside sidebar width */
+      max-width:100%;
+      overflow-wrap:anywhere;          /* wrap long email/urls */
+      word-break:break-word;
+    }
+    /* Use inset shadow for hover “outline” so it never crosses the divider */
+    .contact-mini a:hover,
+    .nav a:hover{
+      background:rgba(255,255,255,.04);
+      box-shadow: inset 0 0 0 1px var(--line);
+      border-color:transparent;
+      text-decoration:none;
+    }
     .contact-mini svg{width:16px;height:16px;opacity:.9}
 
     .btn{display:inline-flex;align-items:center;justify-content:center;padding:10px 12px;border-radius:12px;background:var(--accent);color:#0b0c10;font-weight:700;border:1px solid transparent}
     .btn:hover{filter:brightness(1.05)}
 
+    /* Download CV button in sidebar */
+    .contact-mini a.btn{
+      display:block;
+      width:100%;
+      text-align:center;
+      padding:12px 0;
+      margin-top:6px;
+      box-sizing:border-box;
+    }
+
     .nav{display:flex;flex-direction:column;gap:8px;margin-top:8px}
-    .nav a{display:flex;align-items:center;gap:12px;padding:10px 12px;border-radius:10px;color:var(--ink);text-decoration:none;border:1px solid transparent}
-    .nav a:hover{background:rgba(255,255,255,.04);border-color:var(--line)}
     .nav svg{width:18px;height:18px;opacity:.9}
 
     .main{padding:28px;max-width:var(--maxW);width:100%;margin:0 auto}
@@ -87,44 +119,12 @@
       .nav a span{display:none}
       .nav a{justify-content:center}
       .main{padding:20px}
-
-      .sidebar {
-  overflow-x: hidden;
-}
-
-.contact-mini a {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  color: var(--ink);
-  text-decoration: none;
-  padding: 8px 10px;
-  border: 1px solid transparent;
-  border-radius: 10px;
-  max-width: 100%;
-  box-sizing: border-box;
-  word-break: break-all;           /* break long emails if needed */
-  overflow-wrap: anywhere;         /* ensure text wraps inside */
-}
-
-.contact-mini a.btn {
-  display: block;
-  width: 100%;
-  text-align: center;
-  padding: 12px 0;
-  border-radius: 12px;
-  background: var(--accent);
-  color: #0b0c10;
-  font-weight: 700;
-  border: 1px solid transparent;
-  box-sizing: border-box;
-  margin-top: 8px;
-}
     }
   </style>
 </head>
 <body>
   <div class="app">
+    <!-- ========== SIDEBAR ========== -->
     <aside class="sidebar">
       <div class="brand">
         <div class="avatar">
@@ -154,9 +154,332 @@
       </nav>
     </aside>
 
+    <!-- ========== MAIN ========== -->
     <main class="main" id="home">
-      <!-- main content here -->
+      <div class="topbar"></div>
+
+      <!-- HERO -->
+      <section class="hero reveal">
+        <h2>Ketevan Khuturidze</h2>
+        <p><strong>Game Developer specializing in Unity, C#, and JavaScript/TypeScript — crafting high-performance games with Pixi.js, HTML5, and modern web tech.</strong></p>
+      </section>
+
+      <!-- PROJECTS -->
+      <section id="projects" class="reveal">
+        <div class="section-card">
+          <h3>Featured Projects</h3>
+          <div class="hover-hint">drag or swipe →</div>
+          <div class="gallery-wrap">
+            <div class="gallery" id="projectGallery">
+
+              <!-- Card: Lumber Chopper -->
+              <article class="card">
+                <img src="assets/lumber-chopper.jpg" alt="Lumber Chopper cover" />
+                <div class="card-body">
+                  <h4 class="card-title">Lumber Chopper</h4>
+                  <div class="card-meta">
+                    <span class="pill">Mobile • Simulation / Idle</span>
+                    <span class="pill">Unity • C#</span>
+                  </div>
+                  <div class="stack">
+                    <small class="muted">Prototype → Launch → Live ops. 20M+ downloads, 4.6★. Optimized low-end FPS; UI polish with DOTween; monetization & analytics.</small>
+                    <div class="card-links">
+                      <a class="btn" href="https://play.google.com/store/apps/details?id=dasi.prs2.lumberchopper&hl=en" target="_blank" rel="noopener">Google Play →</a>
+                    </div>
+                  </div>
+                </div>
+              </article>
+
+              <!-- Card: Farm Manager -->
+              <article class="card">
+                <img src="assets/farm-manager.jpg" alt="Farm Manager cover" />
+                <div class="card-body">
+                  <h4 class="card-title">Farm Manager</h4>
+                  <div class="card-meta">
+                    <span class="pill">Mobile • Simulation</span>
+                    <span class="pill">Unity • C#</span>
+                  </div>
+                  <div class="stack">
+                    <small class="muted">In development toward publishing. Retention +13 pts; improved Galaxy A12 FPS 12→45.</small>
+                    <div class="card-links">
+                      <a class="btn" href="https://play.google.com/store/apps/details?id=dasi.prs5.farmmanager&hl=en" target="_blank" rel="noopener">Google Play →</a>
+                    </div>
+                  </div>
+                </div>
+              </article>
+
+              <!-- Card: Hotel Manager -->
+              <article class="card">
+                <img src="assets/hotel-manager.jpg" alt="Hotel Manager cover" />
+                <div class="card-body">
+                  <h4 class="card-title">Hotel Manager</h4>
+                  <div class="card-meta">
+                    <span class="pill">Mobile • Simulation</span>
+                    <span class="pill">Unity • C#</span>
+                  </div>
+                  <div class="stack">
+                    <div class="card-links">
+                      <a class="btn" href="https://play.google.com/store/apps/details?id=dasi.prs3.hotelmanager&hl=en" target="_blank" rel="noopener">Google Play →</a>
+                    </div>
+                  </div>
+                </div>
+              </article>
+
+              <!-- Card: Aquarium Shop -->
+              <article class="card">
+                <img src="assets/aquarium-shop.jpg" alt="Aquarium Shop cover" />
+                <div class="card-body">
+                  <h4 class="card-title">Aquarium Shop</h4>
+                  <div class="card-meta">
+                    <span class="pill">Mobile • Simulation</span>
+                    <span class="pill">Unity • C#</span>
+                  </div>
+                  <div class="stack">
+                    <div class="card-links">
+                      <a class="btn" href="https://play.google.com/store/apps/details?id=dasi.prs4.aquariumshop&hl=en" target="_blank" rel="noopener">Google Play →</a>
+                    </div>
+                  </div>
+                </div>
+              </article>
+
+              <!-- Card: Port Manager -->
+              <article class="card">
+                <img src="assets/port-manager.jpg" alt="Port Manager cover" />
+                <div class="card-body">
+                  <h4 class="card-title">Port Manager</h4>
+                  <div class="card-meta">
+                    <span class="pill">Mobile • Management</span>
+                    <span class="pill">Unity • C#</span>
+                  </div>
+                  <div class="stack">
+                    <div class="card-links">
+                      <a class="btn" href="https://play.google.com/store/apps/details?id=dasi.prs1.portmanager&hl=en" target="_blank" rel="noopener">Google Play →</a>
+                    </div>
+                  </div>
+                </div>
+              </article>
+
+              <!-- Card: Tserilebi -->
+              <article class="card">
+                <img src="assets/tserilebi.jpg" alt="Tserilebi cover" />
+                <div class="card-body">
+                  <h4 class="card-title">Tserilebi</h4>
+                  <div class="card-meta">
+                    <span class="pill">Mobile • Puzzle</span>
+                    <span class="pill">Unity • C#</span>
+                  </div>
+                  <div class="stack">
+                    <div class="card-links">
+                      <a class="btn" href="https://play.google.com/store/apps/details?id=com.geolab.tserilebi&hl=en" target="_blank" rel="noopener">Google Play →</a>
+                    </div>
+                  </div>
+                </div>
+              </article>
+
+              <!-- Card: Dasi Library Manager -->
+              <article class="card">
+                <img src="assets/dasi-library-manager.jpg" alt="Dasi Library Manager cover" />
+                <div class="card-body">
+                  <h4 class="card-title">Dasi Library Manager</h4>
+                  <div class="card-meta">
+                    <span class="pill">Web • Management</span>
+                    <span class="pill">JS/TS • Pixi.js</span>
+                  </div>
+                  <div class="stack">
+                    <div class="card-links">
+                      <a class="btn" href="https://poki.com/en/g/dasi-library-manager" target="_blank" rel="noopener">Play on Poki →</a>
+                    </div>
+                  </div>
+                </div>
+              </article>
+
+              <!-- Card: Dasi Wild West -->
+              <article class="card">
+                <img src="assets/dasi-wild-west.jpg" alt="Dasi Wild West cover" />
+                <div class="card-body">
+                  <h4 class="card-title">Dasi Wild West</h4>
+                  <div class="card-meta">
+                    <span class="pill">Web • Arcade</span>
+                    <span class="pill">JS/TS • Pixi.js</span>
+                  </div>
+                  <div class="stack">
+                    <div class="card-links">
+                      <a class="btn" href="https://poki.com/en/g/dasi-wild-west" target="_blank" rel="noopener">Play on Poki →</a>
+                    </div>
+                  </div>
+                </div>
+              </article>
+
+              <!-- Card: The Great Bubble Wars -->
+              <article class="card">
+                <img src="assets/the-great-bubble-wars.jpg" alt="The Great Bubble Wars cover" />
+                <div class="card-body">
+                  <h4 class="card-title">The Great Bubble Wars</h4>
+                  <div class="card-meta">
+                    <span class="pill">Local Multiplayer • Strategy</span>
+                    <span class="pill">Unity • 48h Jam</span>
+                  </div>
+                  <div class="stack">
+                    <small class="muted">Global Game Jam 2025 — designed four troop types, strategic control mechanics, and rapid iteration for fun 2-player battles.</small>
+                    <div class="card-links">
+                      <a class="btn" href="https://pinvadergames.itch.io/the-great-bubble-wars" target="_blank" rel="noopener">Play on itch.io →</a>
+                    </div>
+                  </div>
+                </div>
+              </article>
+
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ABOUT -->
+      <section id="about" class="reveal">
+        <div class="section-card">
+          <h3>About</h3>
+          <p class="muted">I build playful, performant games across mobile and web. My focus is clean gameplay systems, polished UI/UX, and robust optimization — from Unity (URP, DOTween, analytics, IAP/ads) to web stacks (TypeScript, Pixi.js, Canvas, HTML5/CSS3). I enjoy collaborating across art, design, and engineering to ship high-quality experiences.</p>
+        </div>
+      </section>
+
+      <!-- EXPERIENCE -->
+      <section id="experience" class="reveal">
+        <div class="section-card">
+          <h3>Experience</h3>
+          <div class="grid two">
+            <div class="stack">
+              <strong>OnAim — Game Developer</strong>
+              <small class="muted">Tbilisi, Georgia • Oct 2025 – Present</small>
+              <ul class="muted">
+                <li>Develop and optimize web-based games on a SaaS gamification platform (Pixi.js, JS/TS, HTML5, CSS3).</li>
+                <li>Implement engaging UI, animations, and responsive layouts with cross-browser performance.</li>
+                <li>Collaborate with artists, QA, and backend to deliver smooth gameplay and scalable code.</li>
+              </ul>
+            </div>
+            <div class="stack">
+              <strong>Dasi Games — Unity Developer</strong>
+              <small class="muted">Tbilisi, Georgia • Jun 2024 – Sep 2025</small>
+              <ul class="muted">
+                <li><em>Lumber Chopper</em> (Supercent) — 20M+ downloads, 4.6★; Top-3 Free Simulation; 500K DAU, 1.3h sessions.</li>
+                <li>Prototype → launch → live ops; retention 31%→44%, playtime 2,400→3,400s; $0.49 CPI ad creatives.</li>
+                <li>Optimized low-end FPS (Galaxy A12: 21→45); URP/mobile lighting; polished UI with DOTween.</li>
+                <li>Monetization (IAP/ads), analytics, content updates, event systems, auto level gen tools.</li>
+                <li><em>Farm Manager</em> (in development) — retention 32%→45%, FPS 12→45 on low-end devices.</li>
+              </ul>
+            </div>
+            <div class="stack">
+              <strong>KODUA Studio — Game Developer</strong>
+              <small class="muted">—</small>
+              <ul class="muted">
+                <li>Built mobile gameplay features in Unity/C#, integrated file and camera plugins.</li>
+                <li>Implemented animations via Unity Animator and tooling.</li>
+              </ul>
+            </div>
+            <div class="stack">
+              <strong>Ivane Javakhishvili Tbilisi State University — Teaching Assistant (OOP2, C#)</strong>
+              <small class="muted">Sep 2023 – Jan 2024</small>
+              <ul class="muted">
+                <li>Helped create course materials on OOP fundamentals and assisted with grading.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- EDUCATION -->
+      <section id="education" class="reveal">
+        <div class="section-card">
+          <h3>Education & Certifications</h3>
+          <div class="grid two">
+            <div class="stack">
+              <strong>BSc, Computer Science</strong>
+              <small class="muted">Tbilisi State University • Sep 2020 – Mar 2024</small>
+              <strong>FLEX — Future Leaders Exchange Program</strong>
+              <small class="muted">Lennox High School, USA</small>
+            </div>
+            <div class="stack">
+              <strong>.NET Development Program</strong>
+              <small class="muted">EPAM • May 2023 – Feb 2024 • <a href="https://www.epam.com/" target="_blank" rel="noopener">epam.com</a></small>
+              <strong>Unity Certified Associate • Game Development</strong>
+              <small class="muted">GITA — Georgian Information & Technology Agency</small>
+              <strong>Unity Game Development with C#</strong>
+              <small class="muted">GeoLab</small>
+              <strong>Back End Development with C#</strong>
+              <small class="muted">GITA • Jul 2022 – Sep 2022</small>
+              <strong>Graphic Design</strong>
+              <small class="muted">BTU, UN Women, Norwegian MFA • Feb 2022 – Jun 2022</small>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SKILLS -->
+      <section id="skills" class="reveal">
+        <div class="section-card">
+          <h3>Skills & Tools</h3>
+          <div class="grid two">
+            <div class="stack">
+              <strong>Game Dev</strong>
+              <p class="muted">Unity (URP, Mobile Optimization) · C# · DOTween · Analytics · IAP/Ads · Level Tools · UI/UX for Games · Animations</p>
+              <strong>Web / Frontend</strong>
+              <p class="muted">JavaScript / TypeScript · Pixi.js · HTML5 · CSS3 · Canvas · Responsive UI · Performance</p>
+            </div>
+            <div class="stack">
+              <strong>Production</strong>
+              <p class="muted">Git, GitHub, SourceTree, Bitbucket · Debugging · Data Structures & Algorithms · Planning & Leadership</p>
+              <strong>Creative</strong>
+              <p class="muted">Adobe Photoshop, Illustrator, Premiere · Figma · Canva</p>
+              <strong>Languages</strong>
+              <p class="muted">Georgian (Native), English (C1/C2), Russian (B1–C2)</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- CONTACT -->
+      <section id="contact" class="reveal">
+        <div class="section-card">
+          <h3>Contact</h3>
+          <div class="grid two">
+            <div class="stack">
+              <p><strong>Email:</strong> <a href="mailto:ketevankhuturidze@gmail.com">ketevankhuturidze@gmail.com</a></p>
+              <p><strong>Phone:</strong> <a href="tel:+995505555766">+995 505 555 766</a></p>
+              <p><strong>LinkedIn:</strong> <a href="https://www.linkedin.com/in/ketevankh/" target="_blank" rel="noopener">linkedin.com/in/ketevankh</a></p>
+              <p class="muted">Open to freelance/contract or full-time roles.</p>
+            </div>
+            <div class="stack">
+              <a class="btn" href="assets/CV_KetevanKhuturidze.pdf" download>Download CV</a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="reveal" style="margin:24px 0 8px">
+        <p class="muted">© <span id="y"></span> Ketevan Khuturidze — Tbilisi, Georgia</p>
+      </section>
     </main>
   </div>
+
+  <script>
+    // Current year
+    document.getElementById('y').textContent = new Date().getFullYear();
+
+    // Reveal on scroll
+    const io = new IntersectionObserver((entries)=>{
+      entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('show'); io.unobserve(e.target); } });
+    }, {threshold: .15});
+    document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+    // No autoscroll — keep native horizontal scroll/drag
+    // (Optional) drag-to-scroll with pointer events:
+    (function(){
+      const wrap = document.getElementById('projectGallery');
+      if(!wrap) return;
+      let isDown=false, startX=0, startLeft=0;
+      wrap.addEventListener('pointerdown', (e)=>{ isDown=true; startX=e.clientX; startLeft=wrap.scrollLeft; wrap.setPointerCapture(e.pointerId); });
+      wrap.addEventListener('pointermove', (e)=>{ if(!isDown) return; const dx=e.clientX-startX; wrap.scrollLeft=startLeft-dx; e.preventDefault(); });
+      wrap.addEventListener('pointerup', ()=>{ isDown=false; });
+      wrap.addEventListener('pointercancel', ()=>{ isDown=false; });
+    })();
+  </script>
 </body>
 </html>
