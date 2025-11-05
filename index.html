@@ -15,7 +15,7 @@
     --muted:#a6adbb;
     --line:rgba(255,255,255,.08);
     --accent:#8aa2ff;
-    --maxW:1360px; /* ← add px */
+    --maxW:1360px; /* px included */
   }
   *{box-sizing:border-box}
   html{scroll-behavior:smooth}
@@ -24,7 +24,7 @@
   a:hover{text-decoration:underline}
 
   /* ====== LAYOUT ====== */
-  .app{min-height:100dvh;display:grid;grid-template-columns:340px 1fr} /* ← wider sidebar */
+  .app{min-height:100dvh;display:grid;grid-template-columns:340px 1fr} /* wider sidebar */
   .sidebar{
     background:linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,0));
     border-right:1px solid var(--line);
@@ -48,6 +48,7 @@
     border:1px solid transparent;
     width:100%;max-width:100%;
     position:relative;
+    white-space:nowrap;overflow:hidden;text-overflow:ellipsis; /* no mid-word break */
   }
   /* keep outlines inside the rail */
   .contact-mini a:hover,
@@ -57,20 +58,6 @@
     text-decoration:none;
   }
   .contact-mini svg{width:16px;height:16px;opacity:.9}
-
-  /* prevent ugly mid-word breaks; use ellipsis instead */
-  .contact-mini a{
-    white-space:nowrap;
-    overflow:hidden;
-    text-overflow:ellipsis;
-    overflow-wrap:normal;
-    word-break:normal;
-  }
-  .nav a{
-    white-space:nowrap;
-    overflow:hidden;
-    text-overflow:ellipsis;
-  }
 
   .btn{display:inline-flex;align-items:center;justify-content:center;padding:10px 12px;border-radius:12px;background:var(--accent);color:#0b0c10;font-weight:700;border:1px solid transparent}
   .btn:hover{filter:brightness(1.05)}
@@ -86,7 +73,7 @@
   .hero h2{font-size:clamp(26px,3.6vw,42px);margin:0 0 8px}
   .hero p{margin:0;color:var(--muted);max-width:70ch}
 
-  /* ====== DASHBOARD GRID (4 equal small, 1 tall, then wide projects + extra) ====== */
+  /* ====== DASHBOARD GRID ====== */
   .dashboard{margin-top:12px}
   .grid{
     display:grid;gap:14px;
@@ -128,16 +115,13 @@
     pointer-events:none;
   }
 
-  /* KPIs: equal size & centered */
+  /* KPI cubes */
+  .s1{grid-area:s1}.s2{grid-area:s2}.s3{grid-area:s3}.s4{grid-area:s4}
   .kpi{
     display:flex;align-items:center;justify-content:center;
-    text-align:center;min-height:160px;  /* equal height */
+    text-align:center;min-height:160px;
   }
-  .kpi h4{
-    margin:0;font-weight:800;letter-spacing:.2px;
-    font-size:28px; line-height:1.1;
-  }
-  .kpi small{display:block;color:var(--muted);margin-top:6px;font-size:12px}
+  .kpi h4{margin:0;font-weight:800;letter-spacing:.2px;font-size:28px; line-height:1.1}
 
   /* big right tile */
   .big{grid-area:big;min-height:340px;display:flex;align-items:center;justify-content:center;text-align:center; padding:28px}
@@ -145,36 +129,51 @@
   .big p{max-width:48ch;color:var(--muted);margin:0 auto}
 
   /* projects wide tile */
-  .proj{grid-area:proj;padding:18px; padding-top:26px}
+  .proj{grid-area:proj;padding:18px;padding-top:26px}
   .proj h4{margin:0 0 16px;font-size:22px;text-align:center}
+
   .gallery{
     display:grid;
     grid-template-columns: repeat(auto-fill, minmax(180px,1fr));
     gap:12px;
   }
-    
+
+  /* Entire card clickable (anchor) */
   .gcard{
+    display:flex;flex-direction:column;
     background:var(--card); border:1px solid var(--line); border-radius:12px; overflow:hidden;
-    display:flex; flex-direction:column;
+    text-decoration:none; color:inherit;
+    transition:transform .12s ease, box-shadow .12s ease, background .12s ease;
   }
+  .gcard:hover{background:rgba(255,255,255,.03);transform:translateY(-1px)}
+  .gcard:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
   .gcard img{width:100%; height:110px; object-fit:cover; background:#0e1116}
-  .gcard .gbody{padding:10px; display:flex; flex-direction:column; gap:8px}
+  .gbody{padding:10px; display:flex; flex-direction:column; gap:8px}
   .gtitle{margin:0; font-size:14px; font-weight:700}
   .gmeta{color:var(--muted); font-size:12px}
-  .gactions{display:flex; flex-wrap:wrap; gap:8px}
-  .link-btn{
+  .chip{
+    align-self:flex-start;
     display:inline-flex;align-items:center;gap:6px;
     font-size:12px;font-weight:600;padding:7px 10px;border-radius:9px;
-    background:var(--panel);border:1px solid var(--line);color:var(--ink);text-decoration:none;
-    transition:transform .12s ease, background .12s ease;
+    background:var(--panel);border:1px solid var(--line);color:var(--ink);
+    transition:background .12s ease;
   }
-  .link-btn:hover{background:rgba(255,255,255,.04);text-decoration:none;transform:translateY(-1px)}
-  .link-btn svg{width:14px;height:14px;opacity:.9}
+  .gcard:hover .chip{background:rgba(255,255,255,.06)}
 
-  /* extra tile */
-  .extra{grid-area:extra;min-height:220px;display:flex;align-items:center;justify-content:center;text-align:center;padding:22px}
+  /* extra tile with optional BG */
+  .extra{grid-area:extra;min-height:220px;display:flex;align-items:center;justify-content:center;text-align:center;padding:22px;position:relative;isolation:isolate}
   .extra h4{margin:0 0 8px;font-size:22px}
   .extra p{max-width:46ch;color:var(--muted);margin:0 auto}
+  .extra.has-bg::after{
+    content:"";position:absolute;inset:0;border-radius:inherit;z-index:0;
+    background:
+      linear-gradient(180deg, rgba(11,12,16,.40), rgba(11,12,16,.55)),
+      var(--extra-bg, none);
+    background-size:cover;background-position:center;background-repeat:no-repeat;
+    filter:saturate(1.05) contrast(1.05);
+  }
+  .extra.has-bg > *{position:relative;z-index:1}
 
   /* skills tile */
   .skills .badges{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
@@ -194,8 +193,7 @@
     .nav a{justify-content:center}
     .main{padding:20px}
   }
-</style>
-
+  </style>
 </head>
 <body>
   <div class="app">
@@ -251,116 +249,104 @@
             </div>
           </div>
 
-<!-- Wide bottom-left = Featured Projects (gallery + links) -->
-<div class="tile proj">
-  <h4>Featured Projects</h4>
-  <div class="gallery">
+          <!-- Wide bottom-left = Featured Projects (gallery of clickable cards) -->
+          <div class="tile proj">
+            <h4>Featured Projects</h4>
+            <div class="gallery">
+              <a class="gcard" href="https://play.google.com/store/apps/details?id=dasi.prs2.lumberchopper&hl=en" target="_blank" rel="noopener" aria-label="Open Lumber Chopper on Google Play">
+                <img src="assets/lumber chopper.webp" alt="Lumber Chopper cover">
+                <div class="gbody">
+                  <h5 class="gtitle">Lumber Chopper</h5>
+                  <div class="gmeta">Mobile • Unity</div>
+                  <span class="chip">Google Play →</span>
+                </div>
+              </a>
 
-    <article class="gcard">
-      <img src="assets/lumber chopper.webp" alt="Lumber Chopper cover">
-      <div class="gbody">
-        <h5 class="gtitle">Lumber Chopper</h5>
-        <div class="gmeta">Mobile • Unity</div>
-        <div class="gactions">
-          <a class="link-btn" href="https://play.google.com/store/apps/details?id=dasi.prs2.lumberchopper&hl=en" target="_blank" rel="noopener">Google Play →</a>
+              <a class="gcard" href="https://play.google.com/store/apps/details?id=com.geolab.tserilebi&hl=en" target="_blank" rel="noopener" aria-label="Open ცხოველების წერილები on Google Play">
+                <img src="assets/tskhovelebi.webp" alt="Tskhovelebis Tserilebi cover">
+                <div class="gbody">
+                  <h5 class="gtitle">ცხოველების წერილები</h5>
+                  <div class="gmeta">Unity • Educational</div>
+                  <span class="chip">Google Play →</span>
+                </div>
+              </a>
+
+              <a class="gcard" href="https://play.google.com/store/apps/details?id=dasi.prs5.farmmanager&hl=en" target="_blank" rel="noopener" aria-label="Open Farm Manager on Google Play">
+                <img src="assets/farm manager.webp" alt="Farm Manager cover">
+                <div class="gbody">
+                  <h5 class="gtitle">Farm Manager</h5>
+                  <div class="gmeta">Mobile • Unity</div>
+                  <span class="chip">Google Play →</span>
+                </div>
+              </a>
+
+              <a class="gcard" href="https://play.google.com/store/apps/details?id=dasi.prs3.hotelmanager&hl=en" target="_blank" rel="noopener" aria-label="Open Hotel Manager on Google Play">
+                <img src="assets/hotel manager.webp" alt="Hotel Manager cover">
+                <div class="gbody">
+                  <h5 class="gtitle">Hotel Manager</h5>
+                  <div class="gmeta">Mobile • Unity</div>
+                  <span class="chip">Google Play →</span>
+                </div>
+              </a>
+
+              <a class="gcard" href="https://play.google.com/store/apps/details?id=dasi.prs4.aquariumshop&hl=en" target="_blank" rel="noopener" aria-label="Open Aquarium Shop on Google Play">
+                <img src="assets/aquarium.webp" alt="Aquarium Shop cover">
+                <div class="gbody">
+                  <h5 class="gtitle">Aquarium Shop</h5>
+                  <div class="gmeta">Mobile • Unity</div>
+                  <span class="chip">Google Play →</span>
+                </div>
+              </a>
+
+              <a class="gcard" href="https://poki.com/en/g/dasi-library-manager" target="_blank" rel="noopener" aria-label="Play Dasi Library Manager on Poki">
+                <img src="assets/library.avif" alt="Dasi Library Manager cover">
+                <div class="gbody">
+                  <h5 class="gtitle">Dasi Library Manager</h5>
+                  <div class="gmeta">Web • JS/TS • Pixi.js</div>
+                  <span class="chip">Play on Poki →</span>
+                </div>
+              </a>
+
+              <a class="gcard" href="https://poki.com/en/g/dasi-wild-west" target="_blank" rel="noopener" aria-label="Play Dasi Wild West on Poki">
+                <img src="assets/wild.webp" alt="Dasi Wild West cover">
+                <div class="gbody">
+                  <h5 class="gtitle">Dasi Wild West</h5>
+                  <div class="gmeta">Web • JS/TS • Pixi.js</div>
+                  <span class="chip">Play on Poki →</span>
+                </div>
+              </a>
+
+              <a class="gcard" href="https://pinvadergames.itch.io/the-great-bubble-wars" target="_blank" rel="noopener" aria-label="Play The Great Bubble Wars on itch.io">
+                <img src="assets/bubbles.png" alt="The Great Bubble Wars cover">
+                <div class="gbody">
+                  <h5 class="gtitle">The Great Bubble Wars</h5>
+                  <div class="gmeta">Unity • 48h Jam</div>
+                  <span class="chip">Play on itch.io →</span>
+                </div>
+              </a>
+
+              <a class="gcard" href="https://apps.apple.com/us/app/crown-quest-action-rpg/id6477858164" target="_blank" rel="noopener" aria-label="Open Crown Quest on the App Store">
+                <img src="assets/crown.webp" alt="Crown Quest cover">
+                <div class="gbody">
+                  <h5 class="gtitle">Crown Quest</h5>
+                  <div class="gmeta">Unity • RPG</div>
+                  <span class="chip">App Store →</span>
+                </div>
+              </a>
+            </div>
+          </div>
+
+          <!-- Bottom-right = Extra (with optional background image) -->
+          <div class="tile extra has-bg" style="--extra-bg: url('assets/toolkit-focus.avif');">
+            <div>
+              <h4>Toolkit & Focus</h4>
+              <p>Gameplay architecture • DOTween UI polish • Mobile perf (URP, batching, shaders) • Analytics & IAP/Ads • Rapid prototyping • Collaboration across art/design/engineering.</p>
+            </div>
+          </div>
         </div>
-      </div>
-    </article>
+      </section>
 
-    <article class="gcard">
-      <img src="assets/tskhovelebi.webp" alt="Tskhovelebis Tserilebi Cover">
-      <div class="gbody">
-        <h5 class="gtitle">ცხოველების წერილები</h5>
-        <div class="gmeta">Unity • Educational</div>
-        <div class="gactions">
-          <a class="link-btn" href="https://play.google.com/store/apps/details?id=com.geolab.tserilebi&hl=en" target="_blank" rel="noopener">Google Play →</a>
-        </div>
-      </div>
-    </article>
-
-    <article class="gcard">
-      <img src="assets/farm manager.webp" alt="Farm Manager cover">
-      <div class="gbody">
-        <h5 class="gtitle">Farm Manager</h5>
-        <div class="gmeta">Mobile • Unity</div>
-        <div class="gactions">
-          <a class="link-btn" href="https://play.google.com/store/apps/details?id=dasi.prs5.farmmanager&hl=en" target="_blank" rel="noopener">Google Play →</a>
-        </div>
-      </div>
-    </article>
-
-    <article class="gcard">
-      <img src="assets/hotel manager.webp" alt="Hotel Manager cover">
-      <div class="gbody">
-        <h5 class="gtitle">Hotel Manager</h5>
-        <div class="gmeta">Mobile • Unity</div>
-        <div class="gactions">
-          <a class="link-btn" href="https://play.google.com/store/apps/details?id=dasi.prs3.hotelmanager&hl=en" target="_blank" rel="noopener">Google Play →</a>
-        </div>
-      </div>
-    </article>
-
-    <article class="gcard">
-      <img src="assets/aquarium.webp" alt="Aquarium Shop cover">
-      <div class="gbody">
-        <h5 class="gtitle">Aquarium Shop</h5>
-        <div class="gmeta">Mobile • Unity</div>
-        <div class="gactions">
-          <a class="link-btn" href="https://play.google.com/store/apps/details?id=dasi.prs4.aquariumshop&hl=en" target="_blank" rel="noopener">Google Play →</a>
-        </div>
-      </div>
-    </article>
-
-    <article class="gcard">
-      <img src="assets/library.avif" alt="Dasi Library Manager cover">
-      <div class="gbody">
-        <h5 class="gtitle">Dasi Library Manager</h5>
-        <div class="gmeta">Web • JS/TS • Pixi.js</div>
-        <div class="gactions">
-          <a class="link-btn" href="https://poki.com/en/g/dasi-library-manager" target="_blank" rel="noopener">Play on Poki →</a>
-        </div>
-      </div>
-    </article>
-
-    <article class="gcard">
-      <img src="assets/wild.webp" alt="Dasi Wild West cover">
-      <div class="gbody">
-        <h5 class="gtitle">Dasi Wild West</h5>
-        <div class="gmeta">Web • JS/TS • Pixi.js</div>
-        <div class="gactions">
-          <a class="link-btn" href="https://poki.com/en/g/dasi-wild-west" target="_blank" rel="noopener">Play on Poki →</a>
-        </div>
-      </div>
-    </article>
-
-    <article class="gcard">
-      <img src="assets/bubbles.png" alt="The Great Bubble Wars cover">
-      <div class="gbody">
-        <h5 class="gtitle">The Great Bubble Wars</h5>
-        <div class="gmeta">Unity • 48h Jam</div>
-        <div class="gactions">
-          <a class="link-btn" href="https://pinvadergames.itch.io/the-great-bubble-wars" target="_blank" rel="noopener">Play on itch.io →</a>
-        </div>
-      </div>
-    </article>
-
-    <article class="gcard">
-      <img src="assets/crown.webp" alt="Crown Quest Cover">
-      <div class="gbody">
-        <h5 class="gtitle">Crown Quest</h5>
-        <div class="gmeta">Unity • RPG</div>
-        <div class="gactions">
-          <a class="link-btn" href="https://apps.apple.com/us/app/crown-quest-action-rpg/id6477858164" target="_blank" rel="noopener">App Store →</a>
-        </div>
-      </div>
-    </article>
-
-  </div> <!-- end .gallery -->
-</div> <!-- end .tile.proj -->
-
-         
-
-      <!-- SKILLS (kept) -->
+      <!-- SKILLS -->
       <section id="skills" class="reveal">
         <div class="tile skills" style="padding:22px; text-align:center; margin-top:14px">
           <h4 style="margin:0 0 10px;font-size:22px">Skills & Tools</h4>
