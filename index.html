@@ -41,19 +41,6 @@
     .btn{display:inline-flex;align-items:center;justify-content:center;padding:10px 12px;border-radius:12px;background:var(--accent);color:#0b0c10;font-weight:700;border:1px solid transparent}
     .btn:hover{filter:brightness(1.05)}
 
-    /* === FIX Download CV overflow === */
-    .contact-mini a.btn {
-      display: block !important;
-      width: 100% !important;
-      box-sizing: border-box;
-      text-align: center;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      padding: 12px 0 !important;
-      margin-top: 6px;
-    }
-
     .nav{display:flex;flex-direction:column;gap:8px;margin-top:8px}
     .nav a{display:flex;align-items:center;gap:12px;padding:10px 12px;border-radius:10px;color:var(--ink);text-decoration:none;border:1px solid transparent}
     .nav a:hover{background:rgba(255,255,255,.04);border-color:var(--line)}
@@ -100,6 +87,39 @@
       .nav a span{display:none}
       .nav a{justify-content:center}
       .main{padding:20px}
+
+      .sidebar {
+  overflow-x: hidden;
+}
+
+.contact-mini a {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--ink);
+  text-decoration: none;
+  padding: 8px 10px;
+  border: 1px solid transparent;
+  border-radius: 10px;
+  max-width: 100%;
+  box-sizing: border-box;
+  word-break: break-all;           /* break long emails if needed */
+  overflow-wrap: anywhere;         /* ensure text wraps inside */
+}
+
+.contact-mini a.btn {
+  display: block;
+  width: 100%;
+  text-align: center;
+  padding: 12px 0;
+  border-radius: 12px;
+  background: var(--accent);
+  color: #0b0c10;
+  font-weight: 700;
+  border: 1px solid transparent;
+  box-sizing: border-box;
+  margin-top: 8px;
+}
     }
   </style>
 </head>
