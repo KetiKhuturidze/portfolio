@@ -50,7 +50,6 @@
       overflow-wrap:anywhere;word-break:break-word;
       position:relative;
     }
-    /* inset outline so it never crosses the divider */
     .contact-mini a:hover,
     .nav a:hover{
       background:rgba(255,255,255,.04);
@@ -73,7 +72,7 @@
     .hero h2{font-size:clamp(26px,3.6vw,42px);margin:0 0 8px}
     .hero p{margin:0;color:var(--muted);max-width:70ch}
 
-    /* ====== DASHBOARD GRID ====== */
+    /* ====== DASHBOARD GRID (4 equal small, 1 tall, then wide projects + extra) ====== */
     .dashboard{margin-top:12px}
     .grid{
       display:grid;gap:14px;
@@ -97,12 +96,12 @@
     .tile{
       position:relative;
       border-radius:14px;
-      padding:16px 16px;
+      padding:16px;
       background:var(--panel);
       color:var(--ink);
       overflow:hidden;
     }
-    /* gradient hairline border (inset, non-blocking) */
+    /* inset gradient hairline */
     .tile::before{
       content:"";
       position:absolute; inset:0;
@@ -114,36 +113,57 @@
       -webkit-mask-composite: xor; mask-composite: exclude;
       pointer-events:none;
     }
-    .tile h4{margin:0 0 4px;font-size:20px;line-height:1.15}
-    .tile .meta{color:var(--muted);font-size:12px;line-height:1.4}
 
-    .badges{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
-    .badge{font-size:12px;padding:6px 10px;border-radius:999px;border:1px solid var(--line);color:var(--muted)}
+    /* KPIs: equal size & centered */
+    .kpi{
+      display:flex;align-items:center;justify-content:center;
+      text-align:center;min-height:160px;  /* equal height */
+    }
+    .kpi h4{
+      margin:0;font-weight:800;letter-spacing:.2px;
+      font-size:28px; line-height:1.1;
+    }
+    .kpi small{display:block;color:var(--muted);margin-top:6px;font-size:12px}
 
-    /* assign areas */
-    .s1{grid-area:s1}
-    .s2{grid-area:s2}
-    .s3{grid-area:s3}
-    .s4{grid-area:s4}
-    .big{grid-area:big; display:flex; flex-direction:column; gap:10px; min-height:220px}
-    .proj{grid-area:proj}
-    .extra{grid-area:extra}
+    /* big right tile */
+    .big{grid-area:big;min-height:340px;display:flex;align-items:center;justify-content:center;text-align:center; padding:28px}
+    .big h4{margin:0 0 8px;font-size:28px}
+    .big p{max-width:48ch;color:var(--muted);margin:0 auto}
 
-    /* Projects tile links */
-    .proj-list{display:grid;gap:10px}
-    .proj-row{display:flex;flex-wrap:wrap;gap:8px}
+    /* projects wide tile */
+    .proj{grid-area:proj;padding:18px}
+    .proj h4{margin:0 0 10px;font-size:22px;text-align:center}
+    .gallery{
+      display:grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px,1fr));
+      gap:12px;
+    }
+    .gcard{
+      background:var(--card); border:1px solid var(--line); border-radius:12px; overflow:hidden;
+      display:flex; flex-direction:column;
+    }
+    .gcard img{width:100%; height:110px; object-fit:cover; background:#0e1116}
+    .gcard .gbody{padding:10px; display:flex; flex-direction:column; gap:8px}
+    .gtitle{margin:0; font-size:14px; font-weight:700}
+    .gmeta{color:var(--muted); font-size:12px}
+    .gactions{display:flex; flex-wrap:wrap; gap:8px}
     .link-btn{
-      display:inline-flex;align-items:center;gap:8px;
-      font-size:13px;font-weight:600;
-      padding:8px 12px;border-radius:10px;
-      background:var(--card);
-      border:1px solid var(--line);
-      color:var(--ink);
-      text-decoration:none;
+      display:inline-flex;align-items:center;gap:6px;
+      font-size:12px;font-weight:600;padding:7px 10px;border-radius:9px;
+      background:var(--panel);border:1px solid var(--line);color:var(--ink);text-decoration:none;
       transition:transform .12s ease, background .12s ease;
     }
     .link-btn:hover{background:rgba(255,255,255,.04);text-decoration:none;transform:translateY(-1px)}
-    .link-btn svg{width:16px;height:16px;opacity:.9}
+    .link-btn svg{width:14px;height:14px;opacity:.9}
+
+    /* extra tile */
+    .extra{grid-area:extra;min-height:220px;display:flex;align-items:center;justify-content:center;text-align:center;padding:22px}
+    .extra h4{margin:0 0 8px;font-size:22px}
+    .extra p{max-width:46ch;color:var(--muted);margin:0 auto}
+
+    /* skills tile */
+    .skills .badges{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
+    .badge{font-size:12px;padding:6px 10px;border-radius:999px;border:1px solid var(--line);color:var(--muted)}
 
     /* reveal on scroll */
     .reveal{opacity:0;transform:translateY(12px);transition:opacity .5s ease, transform .5s ease}
@@ -185,9 +205,6 @@
       <nav class="nav">
         <a href="#home" aria-label="Home"><svg viewBox="0 0 24 24" fill="none"><path d="M3 11L12 4l9 7v8a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1v-8z" stroke="#cfd4e3"/></svg><span>Home</span></a>
         <a href="#projects"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="4" width="18" height="6" rx="1" stroke="#cfd4e3"/><rect x="3" y="14" width="18" height="6" rx="1" stroke="#cfd4e3"/></svg><span>Projects</span></a>
-        <a href="#about"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="7" r="4" stroke="#cfd4e3"/><path d="M4 21c0-4.5 4-7 8-7s8 2.5 8 7" stroke="#cfd4e3"/></svg><span>About</span></a>
-        <a href="#experience"><svg viewBox="0 0 24 24" fill="none"><path d="M3 7h18v10H3z" stroke="#cfd4e3"/><path d="M9 7V5a3 3 0 0 1 6 0v2" stroke="#cfd4e3"/></svg><span>Experience</span></a>
-        <a href="#education"><svg viewBox="0 0 24 24" fill="none"><path d="M3 8l9-4 9 4-9 4-9-4z" stroke="#cfd4e3"/><path d="M21 10v4l-9 4-9-4v-4" stroke="#cfd4e3"/></svg><span>Education</span></a>
         <a href="#skills"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="#cfd4e3"/><path d="M12 7v5l3 3" stroke="#cfd4e3"/></svg><span>Skills</span></a>
         <a href="#contact"><svg viewBox="0 0 24 24" fill="none"><path d="M21 8v8a2 2 0 0 1-2 2H5l-2 2V6a2 2 0 0 1 2-2h10" stroke="#cfd4e3"/><path d="M15 3h6v6" stroke="#cfd4e3"/></svg><span>Contact</span></a>
       </nav>
@@ -201,185 +218,157 @@
         <p><strong>Game Developer in Unity/C# and JS/TS — crafting high-performance mobile & web games with URP, DOTween, Pixi.js, and modern web tech.</strong></p>
       </section>
 
-      <!-- DASHBOARD (4 small left, 1 big right; then projects + extra) -->
+      <!-- DASHBOARD (4 equal KPIs, About tall, Projects wide, Extra) -->
       <section class="dashboard reveal" id="projects">
         <div class="grid">
-          <div class="tile s1">
-            <h4>20M+ downloads</h4>
-            <div class="meta">Lead work on <em>Lumber Chopper</em> (Supercent). 4.6★ rating.</div>
-          </div>
-          <div class="tile s2">
-            <h4>9 shipped titles</h4>
-            <div class="meta">Google Play, Poki, itch.io across mobile & web.</div>
-          </div>
-          <div class="tile s3">
-            <h4>Performance wins</h4>
-            <div class="meta">Galaxy A12 FPS ↑ 12→45; retention +13 pts on <em>Farm Manager</em>.</div>
-          </div>
-          <div class="tile s4">
-            <h4>Core stack</h4>
-            <div class="badges">
-              <span class="badge">Unity</span><span class="badge">C#</span>
-              <span class="badge">Pixi.js</span><span class="badge">TypeScript</span>
-              <span class="badge">URP</span><span class="badge">DOTween</span>
-              <span class="badge">Analytics · IAP/Ads</span>
+          <!-- KPIs (equal cubes, centered) -->
+          <div class="tile kpi s1"><h4>25M+ Downloads</h4></div>
+          <div class="tile kpi s2"><h4>Game Dev Expert</h4></div>
+          <div class="tile kpi s3"><h4>2+ Years Experience</h4></div>
+          <div class="tile kpi s4"><h4>9 Shipped Titles</h4></div>
+
+          <!-- Tall right = About -->
+          <div class="tile big">
+            <div>
+              <h4>About</h4>
+              <p>I build playful, performant games across mobile & web. I focus on clean gameplay systems, polished UI with DOTween, and robust optimization (URP, batching, lightweight shaders). Comfortable across Unity/C# and JS/TS with Pixi.js.</p>
             </div>
           </div>
 
-          <div class="tile big">
-            <h4>What I’m doing now</h4>
-            <div class="meta">Game Developer @ OnAim — building high-performance web games (Pixi.js, JS/TS, HTML5/CSS3). Collaborate with artists, QA, and backend to ship smooth gameplay and scalable code.</div>
-            <div class="meta">Open to freelance/contract or full-time roles. Tbilisi, Georgia • English C1/C2.</div>
-          </div>
-
+          <!-- Wide bottom-left = Featured Projects (gallery + links) -->
           <div class="tile proj">
             <h4>Featured Projects</h4>
-            <div class="proj-list">
-              <div class="meta">Quick links to live games:</div>
-              <div class="proj-row">
-                <a class="link-btn" href="https://play.google.com/store/apps/details?id=dasi.prs2.lumberchopper&hl=en" target="_blank" rel="noopener">
-                  <svg viewBox="0 0 24 24" fill="none"><path d="M4 6h16a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1zm0 0 8 6 8-6" stroke="#cfd4e3"/></svg>
-                  Lumber Chopper (Play)
-                </a>
-                <a class="link-btn" href="https://play.google.com/store/apps/details?id=dasi.prs5.farmmanager&hl=en" target="_blank" rel="noopener">
-                  <svg viewBox="0 0 24 24" fill="none"><path d="M4 6h16a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1zm0 0 8 6 8-6" stroke="#cfd4e3"/></svg>
-                  Farm Manager (Play)
-                </a>
-                <a class="link-btn" href="https://play.google.com/store/apps/details?id=dasi.prs3.hotelmanager&hl=en" target="_blank" rel="noopener">
-                  <svg viewBox="0 0 24 24" fill="none"><path d="M4 6h16a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1zm0 0 8 6 8-6" stroke="#cfd4e3"/></svg>
-                  Hotel Manager (Play)
-                </a>
-              </div>
-              <div class="proj-row">
-                <a class="link-btn" href="https://play.google.com/store/apps/details?id=dasi.prs4.aquariumshop&hl=en" target="_blank" rel="noopener">
-                  <svg viewBox="0 0 24 24" fill="none"><path d="M4 6h16a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1zm0 0 8 6 8-6" stroke="#cfd4e3"/></svg>
-                  Aquarium Shop (Play)
-                </a>
-                <a class="link-btn" href="https://poki.com/en/g/dasi-library-manager" target="_blank" rel="noopener">
-                  <svg viewBox="0 0 24 24" fill="none"><path d="M3 8l9-4 9 4-9 4-9-4z" stroke="#cfd4e3"/></svg>
-                  Dasi Library Manager (Poki)
-                </a>
-                <a class="link-btn" href="https://poki.com/en/g/dasi-wild-west" target="_blank" rel="noopener">
-                  <svg viewBox="0 0 24 24" fill="none"><path d="M3 8l9-4 9 4-9 4-9-4z" stroke="#cfd4e3"/></svg>
-                  Dasi Wild West (Poki)
-                </a>
-                <a class="link-btn" href="https://pinvadergames.itch.io/the-great-bubble-wars" target="_blank" rel="noopener">
-                  <svg viewBox="0 0 24 24" fill="none"><path d="M3 8l9-4 9 4-9 4-9-4z" stroke="#cfd4e3"/></svg>
-                  The Great Bubble Wars (itch.io)
-                </a>
-              </div>
+            <div class="gallery">
+              <!-- Lumber Chopper -->
+              <article class="gcard">
+                <img src="assets/lumber-chopper.jpg" alt="Lumber Chopper cover">
+                <div class="gbody">
+                  <h5 class="gtitle">Lumber Chopper</h5>
+                  <div class="gmeta">Mobile • Unity</div>
+                  <div class="gactions">
+                    <a class="link-btn" href="https://play.google.com/store/apps/details?id=dasi.prs2.lumberchopper&hl=en" target="_blank" rel="noopener">Google Play →</a>
+                  </div>
+                </div>
+              </article>
+
+              <!-- Farm Manager -->
+              <article class="gcard">
+                <img src="assets/farm-manager.jpg" alt="Farm Manager cover">
+                <div class="gbody">
+                  <h5 class="gtitle">Farm Manager</h5>
+                  <div class="gmeta">Mobile • Unity</div>
+                  <div class="gactions">
+                    <a class="link-btn" href="https://play.google.com/store/apps/details?id=dasi.prs5.farmmanager&hl=en" target="_blank" rel="noopener">Google Play →</a>
+                  </div>
+                </div>
+              </article>
+
+              <!-- Hotel Manager -->
+              <article class="gcard">
+                <img src="assets/hotel-manager.jpg" alt="Hotel Manager cover">
+                <div class="gbody">
+                  <h5 class="gtitle">Hotel Manager</h5>
+                  <div class="gmeta">Mobile • Unity</div>
+                  <div class="gactions">
+                    <a class="link-btn" href="https://play.google.com/store/apps/details?id=dasi.prs3.hotelmanager&hl=en" target="_blank" rel="noopener">Google Play →</a>
+                  </div>
+                </div>
+              </article>
+
+              <!-- Aquarium Shop -->
+              <article class="gcard">
+                <img src="assets/aquarium-shop.jpg" alt="Aquarium Shop cover">
+                <div class="gbody">
+                  <h5 class="gtitle">Aquarium Shop</h5>
+                  <div class="gmeta">Mobile • Unity</div>
+                  <div class="gactions">
+                    <a class="link-btn" href="https://play.google.com/store/apps/details?id=dasi.prs4.aquariumshop&hl=en" target="_blank" rel="noopener">Google Play →</a>
+                  </div>
+                </div>
+              </article>
+
+              <!-- Dasi Library Manager -->
+              <article class="gcard">
+                <img src="assets/dasi-library-manager.jpg" alt="Dasi Library Manager cover">
+                <div class="gbody">
+                  <h5 class="gtitle">Dasi Library Manager</h5>
+                  <div class="gmeta">Web • JS/TS • Pixi.js</div>
+                  <div class="gactions">
+                    <a class="link-btn" href="https://poki.com/en/g/dasi-library-manager" target="_blank" rel="noopener">Play on Poki →</a>
+                  </div>
+                </div>
+              </article>
+
+              <!-- Dasi Wild West -->
+              <article class="gcard">
+                <img src="assets/dasi-wild-west.jpg" alt="Dasi Wild West cover">
+                <div class="gbody">
+                  <h5 class="gtitle">Dasi Wild West</h5>
+                  <div class="gmeta">Web • JS/TS • Pixi.js</div>
+                  <div class="gactions">
+                    <a class="link-btn" href="https://poki.com/en/g/dasi-wild-west" target="_blank" rel="noopener">Play on Poki →</a>
+                  </div>
+                </div>
+              </article>
+
+              <!-- The Great Bubble Wars -->
+              <article class="gcard">
+                <img src="assets/the-great-bubble-wars.jpg" alt="The Great Bubble Wars cover">
+                <div class="gbody">
+                  <h5 class="gtitle">The Great Bubble Wars</h5>
+                  <div class="gmeta">Unity • 48h Jam</div>
+                  <div class="gactions">
+                    <a class="link-btn" href="https://pinvadergames.itch.io/the-great-bubble-wars" target="_blank" rel="noopener">Play on itch.io →</a>
+                  </div>
+                </div>
+              </article>
             </div>
           </div>
 
+          <!-- Bottom-right = Extra -->
           <div class="tile extra">
-            <h4>Toolkit & Focus</h4>
-            <div class="meta">
-              Clean gameplay systems • UI polish with DOTween • Mobile optimization (URP, batching, lightweight shaders) •
-              Live ops & analytics • IAP/Ads • Rapid prototyping • Team collab across art/design/engineering.
+            <div>
+              <h4>Toolkit & Focus</h4>
+              <p>Gameplay architecture • DOTween UI polish • Mobile perf (URP, batching, shaders) • Analytics & IAP/Ads • Rapid prototyping • Collaboration across art/design/engineering.</p>
             </div>
           </div>
         </div>
       </section>
 
-      <!-- ABOUT -->
-      <section id="about" class="reveal">
-        <div class="section-card tile">
-          <h3>About</h3>
-          <p class="meta">I build playful, performant games across mobile and web. My focus is clean gameplay systems, polished UI/UX, and robust optimization — from Unity (URP, DOTween, analytics, IAP/ads) to web stacks (TypeScript, Pixi.js, Canvas, HTML5/CSS3). I enjoy collaborating across art, design, and engineering to ship high-quality experiences.</p>
-        </div>
-      </section>
-
-      <!-- EXPERIENCE -->
-      <section id="experience" class="reveal">
-        <div class="section-card tile">
-          <h3>Experience</h3>
-          <div class="grid two" style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
-            <div class="stack">
-              <strong>OnAim — Game Developer</strong>
-              <small class="meta">Tbilisi, Georgia • Oct 2025 – Present</small>
-              <ul class="meta">
-                <li>Develop and optimize web-based games (Pixi.js, JS/TS, HTML5, CSS3).</li>
-                <li>Implement engaging UI, animations, and responsive layouts.</li>
-                <li>Collaborate with artists, QA, and backend.</li>
-              </ul>
-            </div>
-            <div class="stack">
-              <strong>Dasi Games — Unity Developer</strong>
-              <small class="meta">Jun 2024 – Sep 2025</small>
-              <ul class="meta">
-                <li><em>Lumber Chopper</em> — 20M+ downloads, 4.6★; Top-3 Free Simulation.</li>
-                <li>Retention 31%→44%; playtime 2,400→3,400s; $0.49 CPI creatives.</li>
-                <li>FPS on Galaxy A12: 21→45; URP/mobile lighting; DOTween UI polish.</li>
-                <li>Monetization (IAP/ads), analytics, tools, live ops.</li>
-                <li><em>Farm Manager</em> — retention 32%→45%, FPS 12→45.</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- EDUCATION -->
-      <section id="education" class="reveal">
-        <div class="section-card tile">
-          <h3>Education & Certifications</h3>
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
-            <div class="stack">
-              <strong>BSc, Computer Science</strong>
-              <small class="meta">Tbilisi State University • Sep 2020 – Mar 2024</small>
-              <strong>FLEX — Future Leaders Exchange Program</strong>
-              <small class="meta">Lennox High School, USA</small>
-            </div>
-            <div class="stack">
-              <strong>.NET Development Program</strong>
-              <small class="meta">EPAM • May 2023 – Feb 2024 • <a href="https://www.epam.com/" target="_blank" rel="noopener">epam.com</a></small>
-              <strong>Unity Certified Associate • Game Development</strong>
-              <small class="meta">GITA</small>
-              <strong>Unity Game Development with C#</strong>
-              <small class="meta">GeoLab</small>
-              <strong>Back End Development with C#</strong>
-              <small class="meta">GITA • Jul 2022 – Sep 2022</small>
-              <strong>Graphic Design</strong>
-              <small class="meta">BTU, UN Women, Norwegian MFA</small>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- SKILLS -->
+      <!-- SKILLS (kept) -->
       <section id="skills" class="reveal">
-        <div class="section-card tile">
-          <h3>Skills & Tools</h3>
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
-            <div class="stack">
-              <strong>Game Dev</strong>
-              <p class="meta">Unity (URP, Mobile Optimization) · C# · DOTween · Analytics · IAP/Ads · Level Tools · UI/UX for Games · Animations</p>
-              <strong>Web / Frontend</strong>
-              <p class="meta">JavaScript / TypeScript · Pixi.js · HTML5 · CSS3 · Canvas · Responsive UI · Performance</p>
-            </div>
-            <div class="stack">
-              <strong>Production</strong>
-              <p class="meta">Git, GitHub, SourceTree, Bitbucket · Debugging · DSA · Planning & Leadership</p>
-              <strong>Creative</strong>
-              <p class="meta">Adobe Photoshop, Illustrator, Premiere · Figma · Canva</p>
-              <strong>Languages</strong>
-              <p class="meta">Georgian (Native), English (C1/C2), Russian (B1–C2)</p>
-            </div>
+        <div class="tile skills" style="padding:22px; text-align:center; margin-top:14px">
+          <h4 style="margin:0 0 10px;font-size:22px">Skills & Tools</h4>
+          <div class="badges">
+            <span class="badge">Unity</span>
+            <span class="badge">C#</span>
+            <span class="badge">URP</span>
+            <span class="badge">DOTween</span>
+            <span class="badge">Pixi.js</span>
+            <span class="badge">JavaScript</span>
+            <span class="badge">TypeScript</span>
+            <span class="badge">HTML5</span>
+            <span class="badge">CSS3</span>
+            <span class="badge">Analytics</span>
+            <span class="badge">IAP/Ads</span>
+            <span class="badge">Git / GitHub</span>
+            <span class="badge">Figma</span>
+            <span class="badge">Photoshop</span>
           </div>
         </div>
       </section>
 
       <!-- CONTACT -->
       <section id="contact" class="reveal">
-        <div class="section-card tile">
-          <h3>Contact</h3>
-          <p class="meta"><strong>Email:</strong> <a href="mailto:ketevankhuturidze@gmail.com">ketevankhuturidze@gmail.com</a></p>
-          <p class="meta"><strong>Phone:</strong> <a href="tel:+995505555766">+995 505 555 766</a></p>
-          <p class="meta"><strong>LinkedIn:</strong> <a href="https://www.linkedin.com/in/ketevankh/" target="_blank" rel="noopener">linkedin.com/in/ketevankh</a></p>
+        <div class="tile" style="padding:22px; text-align:center; margin-top:14px">
+          <h4 style="margin:0 0 8px;font-size:22px">Contact</h4>
+          <p class="meta"><strong>Email:</strong> <a href="mailto:ketevankhuturidze@gmail.com">ketevankhuturidze@gmail.com</a> • <strong>Phone:</strong> <a href="tel:+995505555766">+995 505 555 766</a> • <strong>LinkedIn:</strong> <a href="https://www.linkedin.com/in/ketevankh/" target="_blank" rel="noopener">/in/ketevankh</a></p>
+          <p class="meta">Open to freelance/contract or full-time roles. Tbilisi, Georgia.</p>
         </div>
       </section>
 
-      <section class="reveal" style="margin:24px 0 8px">
-        <p class="meta">© <span id="y"></span> Ketevan Khuturidze — Tbilisi, Georgia</p>
+      <section class="reveal" style="margin:24px 0 8px;text-align:center">
+        <p class="meta">© <span id="y"></span> Ketevan Khuturidze</p>
       </section>
     </main>
   </div>
