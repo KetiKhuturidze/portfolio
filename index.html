@@ -99,6 +99,49 @@
     .card-links{display:flex;gap:10px;margin-top:8px}
     .hover-hint{position:absolute;right:6px;top:-18px;font-size:12px;color:var(--muted)}
 
+    /* === compact info boxes (stats) === */
+.stats { margin: 8px 0 24px; }
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 14px;
+}
+.tile {
+  position: relative;
+  border-radius: 14px;
+  padding: 14px 16px;
+  background: var(--panel);
+  color: var(--ink);
+}
+
+/* gradient hairline border (inset so it never overflows) */
+.tile::before{
+  content:"";
+  position:absolute; inset:0;
+  border-radius:14px;
+  padding:1px;
+  background: radial-gradient(120% 120% at 30% -10%, rgba(138,162,255,.45), rgba(138,162,255,0) 60%),
+              radial-gradient(120% 120% at 100% 120%, rgba(138,162,255,.35), rgba(138,162,255,0) 60%);
+  -webkit-mask: 
+    linear-gradient(#000 0 0) content-box, 
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor; mask-composite: exclude;
+  pointer-events:none;
+}
+
+.tile h4{
+  margin:0 0 4px; font-size:20px; line-height:1.15; font-weight:700;
+}
+.tile .meta{
+  color: var(--muted); font-size:12px; line-height:1.35;
+}
+
+/* small layout helpers */
+.row { display:flex; align-items:center; gap:8px; }
+.badges { display:flex; flex-wrap:wrap; gap:8px; margin-top:8px; }
+.badge { font-size:12px; padding:6px 10px; border-radius:999px; border:1px solid var(--line); color:var(--muted); }
+
+    
     section{margin-top:28px}
     .section-card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:22px}
     .section-card h3{margin:0 0 10px}
@@ -163,6 +206,52 @@
         <h2>Ketevan Khuturidze</h2>
         <p><strong>Game Developer specializing in Unity, C#, and JavaScript/TypeScript — crafting high-performance games with Pixi.js, HTML5, and modern web tech.</strong></p>
       </section>
+
+      <!-- COMPACT INFO BOXES -->
+<section class="stats reveal">
+  <div class="stats-grid">
+
+    <div class="tile">
+      <h4>20M+ downloads</h4>
+      <div class="meta">Lead work on <em>Lumber Chopper</em> (Supercent), Top-3 Free Simulation, 4.6★ rating.</div>
+    </div>
+
+    <div class="tile">
+      <h4>9 shipped titles</h4>
+      <div class="meta">Mobile (Unity/C#) + Web (Pixi.js, JS/TS). Google Play, Poki, itch.io.</div>
+    </div>
+
+    <div class="tile">
+      <h4>Performance wins</h4>
+      <div class="meta">Galaxy A12 FPS ↑ 12→45; retention +13 pts on <em>Farm Manager</em>.</div>
+    </div>
+
+    <div class="tile">
+      <h4>Core stack</h4>
+      <div class="badges">
+        <span class="badge">Unity</span>
+        <span class="badge">C#</span>
+        <span class="badge">Pixi.js</span>
+        <span class="badge">TypeScript</span>
+        <span class="badge">HTML5/CSS3</span>
+        <span class="badge">DOTween</span>
+        <span class="badge">URP</span>
+        <span class="badge">Analytics · IAP/Ads</span>
+      </div>
+    </div>
+
+    <div class="tile">
+      <h4>Current role</h4>
+      <div class="meta">Game Developer @ OnAim — building high-perf web games (Pixi.js, JS/TS).</div>
+    </div>
+
+    <div class="tile">
+      <h4>Open to opportunities</h4>
+      <div class="meta">Freelance/contract or full-time. Tbilisi, Georgia • EN C1/C2.</div>
+    </div>
+
+  </div>
+</section>
 
       <!-- PROJECTS -->
       <section id="projects" class="reveal">
