@@ -358,7 +358,28 @@
   from{opacity:0;transform:translateY(4px);}
   to{opacity:1;transform:none;}
 }
+.modal-body::-webkit-scrollbar {
+  width: 8px;                 /* thickness */
+}
 
+.modal-body::-webkit-scrollbar-track {
+  background: transparent;    /* no heavy track */
+}
+
+.modal-body::-webkit-scrollbar-thumb {
+  background: rgba(255,255,255,.14);
+  border-radius: 999px;
+}
+
+.modal-body::-webkit-scrollbar-thumb:hover {
+  background: rgba(255,255,255,.26);
+}
+
+/* Firefox */
+.modal-body{
+  scrollbar-width: thin;      /* slim scrollbar */
+  scrollbar-color: rgba(255,255,255,.24) transparent;
+}
   </style>
 </head>
 <body>
