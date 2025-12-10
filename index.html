@@ -252,6 +252,8 @@
     padding:18px 22px 20px;
     display:flex;
     justify-content:center;
+    flex: 1 1 auto;
+    overflow:hidden;
   }
 
   .project-detail{
@@ -260,9 +262,12 @@
     max-width:520px;
     margin:0 auto;
     animation:modalFade .20s ease;
+    display:none;
+    flex-direction:column;
+    height:100%;
   }
   .project-detail.active{
-    display:block;
+    display:flex;
   }
 
   /* top fixed block: title/meta/tags + square image + button */
@@ -336,7 +341,8 @@
   /* scroll area: only long text scrolls */
   .project-scroll{
     margin-top:14px;
-    max-height:260px;
+    flex:1 1 auto;
+    min-height:0;
     overflow-y:auto;
     padding-right:4px;
   }
