@@ -35,17 +35,16 @@
   }
 
   .brand{display:flex;align-items:center;gap:14px}
-.avatar{
-  width:106px;              /* display size */
-  height:106px;
-  border-radius:50%;
-  background:#1b1e27;
-  display:grid;place-items:center;
-  overflow:hidden;
-  border:1px solid var(--line);
-}
-    
-.avatar img{width:100%;height:100%;object-fit:cover;display:block}
+  .avatar{
+    width:106px;              /* display size */
+    height:106px;
+    border-radius:50%;
+    background:#1b1e27;
+    display:grid;place-items:center;
+    overflow:hidden;
+    border:1px solid var(--line);
+  }
+  .avatar img{width:100%;height:100%;object-fit:cover;display:block}
 
   .brand h1{font-size:16px;margin:0;line-height:1.2}
   .sub{font-size:12px;color:var(--muted);margin-top:4px}
@@ -59,9 +58,8 @@
     border:1px solid transparent;
     width:100%;max-width:100%;
     position:relative;
-    white-space:nowrap;overflow:hidden;text-overflow:ellipsis; /* no mid-word break */
+    white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
   }
-  /* keep outlines inside the rail */
   .contact-mini a:hover,
   .nav a:hover{
     background:rgba(255,255,255,.04);
@@ -113,7 +111,6 @@
     color:var(--ink);
     overflow:hidden;
   }
-  /* inset gradient hairline */
   .tile::before{
     content:"";
     position:absolute; inset:0;
@@ -126,7 +123,6 @@
     pointer-events:none;
   }
 
-  /* KPI cubes */
   .s1{grid-area:s1}.s2{grid-area:s2}.s3{grid-area:s3}.s4{grid-area:s4}
   .kpi{
     display:flex;align-items:center;justify-content:center;
@@ -134,12 +130,10 @@
   }
   .kpi h4{margin:0;font-weight:800;letter-spacing:.2px;font-size:28px; line-height:1.1}
 
-  /* big right tile */
   .big{grid-area:big;min-height:340px;display:flex;align-items:center;justify-content:center;text-align:center; padding:28px}
   .big h4{margin:0 0 8px;font-size:28px}
   .big p{max-width:48ch;color:var(--muted);margin:0 auto}
 
-  /* projects wide tile */
   .proj{grid-area:proj;padding:18px;padding-top:26px}
   .proj h4{margin:0 0 16px;font-size:22px;text-align:center}
 
@@ -149,12 +143,12 @@
     gap:12px;
   }
 
-  /* Entire card clickable (anchor) */
   .gcard{
     display:flex;flex-direction:column;
     background:var(--card); border:1px solid var(--line); border-radius:12px; overflow:hidden;
     text-decoration:none; color:inherit;
     transition:transform .12s ease, box-shadow .12s ease, background .12s ease;
+    cursor:pointer;
   }
   .gcard:hover{background:rgba(255,255,255,.03);transform:translateY(-1px)}
   .gcard:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
@@ -172,7 +166,6 @@
   }
   .gcard:hover .chip{background:rgba(255,255,255,.06)}
 
-  /* extra tile with optional BG */
   .extra{grid-area:extra;min-height:220px;display:flex;align-items:center;justify-content:center;text-align:center;padding:22px;position:relative;isolation:isolate}
   .extra h4{margin:0 0 8px;font-size:22px}
   .extra p{max-width:46ch;color:var(--muted);margin:0 auto}
@@ -186,23 +179,156 @@
   }
   .extra.has-bg > *{position:relative;z-index:1}
 
-  /* skills tile */
   .skills .badges{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
   .badge{font-size:12px;padding:6px 10px;border-radius:999px;border:1px solid var(--line);color:var(--muted)}
 
-  /* reveal on scroll */
   .reveal{opacity:0;transform:translateY(12px);transition:opacity .5s ease, transform .5s ease}
   .reveal.show{opacity:1;transform:none}
 
-  /* responsive sidebar collapse (bumped for wider rail) */
   @media (max-width: 1140px){
     .app{grid-template-columns:96px 1fr}
     .brand h1,.sub{display:none}
-  .avatar{width:56px;height:56px}
+    .avatar{width:56px;height:56px}
     .contact-mini{display:none}
     .nav a span{display:none}
     .nav a{justify-content:center}
     .main{padding:20px}
+  }
+
+  /* ====== PROJECT MODAL ====== */
+  .modal-backdrop{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.65);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    z-index:1000;
+    opacity:0;
+    pointer-events:none;
+    transition:opacity .18s ease;
+  }
+  .modal-backdrop.open{
+    opacity:1;
+    pointer-events:auto;
+  }
+  .modal{
+    width:min(720px, 100% - 32px);
+    max-height:min(80vh, 680px);
+    background:var(--panel);
+    border-radius:16px;
+    border:1px solid var(--line);
+    box-shadow:0 18px 45px rgba(0,0,0,.6);
+    overflow:hidden;
+    display:flex;
+    flex-direction:column;
+  }
+  .modal-header{
+    padding:16px 20px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    border-bottom:1px solid var(--line);
+  }
+  .modal-title{
+    margin:0;
+    font-size:18px;
+  }
+  .modal-close{
+    border:none;
+    background:transparent;
+    color:var(--muted);
+    cursor:pointer;
+    padding:4px;
+    border-radius:999px;
+    line-height:1;
+    font-size:16px;
+  }
+  .modal-close:hover{
+    background:rgba(255,255,255,.06);
+  }
+  .modal-body{
+    padding:16px 20px 18px;
+    overflow:auto;
+    display:grid;
+    grid-template-columns:minmax(0,1.4fr) minmax(0,1fr);
+    gap:16px;
+  }
+  @media (max-width:720px){
+    .modal-body{
+      grid-template-columns:1fr;
+    }
+  }
+  .project-detail{
+    display:none;
+    animation:modalFade .20s ease;
+  }
+  .project-detail.active{
+    display:block;
+  }
+  .project-detail h4{
+    margin:0 0 8px;
+    font-size:18px;
+  }
+  .project-meta{
+    font-size:13px;
+    color:var(--muted);
+    margin:0 0 10px;
+  }
+  .project-tags{
+    display:flex;
+    flex-wrap:wrap;
+    gap:6px;
+    margin:8px 0 14px;
+  }
+  .project-tag{
+    font-size:11px;
+    padding:4px 9px;
+    border-radius:999px;
+    border:1px solid var(--line);
+    color:var(--muted);
+  }
+  .project-body-text{
+    font-size:14px;
+    line-height:1.5;
+    color:var(--ink);
+  }
+  .project-body-text p{
+    margin:0 0 10px;
+  }
+  .project-links{
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+    margin-top:12px;
+  }
+  .project-links a{
+    font-size:13px;
+    padding:7px 11px;
+    border-radius:999px;
+    border:1px solid var(--line);
+    background:var(--card);
+    text-decoration:none;
+    color:var(--ink);
+  }
+  .project-links a:hover{
+    background:rgba(255,255,255,.04);
+  }
+  .project-snapshot{
+    border-radius:12px;
+    overflow:hidden;
+    border:1px solid var(--line);
+    background:#0e1116;
+  }
+  .project-snapshot img{
+    display:block;
+    width:100%;
+    height:100%;
+    object-fit:cover;
+  }
+  @keyframes modalFade{
+    from{opacity:0;transform:translateY(4px);}
+    to{opacity:1;transform:none;}
   }
   </style>
 </head>
@@ -211,16 +337,14 @@
     <!-- ========== SIDEBAR ========== -->
     <aside class="sidebar">
       <div class="brand">
-<div class="avatar">
-  
-  <img
-    src="assets/keti.jpg"
-    width="106" height="106"
-    alt="Ketevan Khuturidze"
-    loading="eager" decoding="async" fetchpriority="high"
-  />
-</div>
-
+        <div class="avatar">
+          <img
+            src="assets/keti.jpg"
+            width="106" height="106"
+            alt="Ketevan Khuturidze"
+            loading="eager" decoding="async" fetchpriority="high"
+          />
+        </div>
         <div>
           <h1>KETEVAN KHUTURIDZE</h1>
           <div class="sub">Game Developer</div>
@@ -250,16 +374,16 @@
         <p><strong>Game Developer in Unity/C# and JS/TS — crafting high-performance mobile & web games with URP, DOTween, Pixi.js, and modern web tech.</strong></p>
       </section>
 
-      <!-- DASHBOARD (4 equal KPIs, About tall, Projects wide, Extra) -->
+      <!-- DASHBOARD -->
       <section class="dashboard reveal" id="projects">
         <div class="grid">
-          <!-- KPIs (equal cubes, centered) -->
+          <!-- KPIs -->
           <div class="tile kpi s1"><h4>25M+ Downloads</h4></div>
           <div class="tile kpi s2"><h4>Game Dev Expert</h4></div>
           <div class="tile kpi s3"><h4>2+ Years Experience</h4></div>
           <div class="tile kpi s4"><h4>9 Shipped Titles</h4></div>
 
-          <!-- Tall right = About -->
+          <!-- About -->
           <div class="tile big">
             <div>
               <h4>About</h4>
@@ -267,95 +391,95 @@
             </div>
           </div>
 
-          <!-- Wide bottom-left = Featured Projects (gallery of clickable cards) -->
+          <!-- Featured Projects -->
           <div class="tile proj">
             <h4>Featured Projects</h4>
             <div class="gallery">
-              <a class="gcard" href="https://play.google.com/store/apps/details?id=dasi.prs2.lumberchopper&hl=en" target="_blank" rel="noopener" aria-label="Open Lumber Chopper on Google Play">
+              <!-- NOTE: href hash is just for semantics; JS handles modal -->
+              <a class="gcard" href="#project-lumber-chopper" data-project="lumber-chopper">
                 <img src="assets/lumber chopper.webp" alt="Lumber Chopper cover">
                 <div class="gbody">
                   <h5 class="gtitle">Lumber Chopper</h5>
                   <div class="gmeta">Mobile • Unity</div>
-                  <span class="chip">Google Play →</span>
+                  <span class="chip">View details →</span>
                 </div>
               </a>
 
-              <a class="gcard" href="https://play.google.com/store/apps/details?id=com.geolab.tserilebi&hl=en" target="_blank" rel="noopener" aria-label="Open ცხოველების წერილები on Google Play">
+              <a class="gcard" href="#project-tskhovelebis-tserilebi" data-project="tskhovelebis-tserilebi">
                 <img src="assets/tskhovelebi.webp" alt="Tskhovelebis Tserilebi cover">
                 <div class="gbody">
                   <h5 class="gtitle">ცხოველების წერილები</h5>
                   <div class="gmeta">Unity • Educational</div>
-                  <span class="chip">Google Play →</span>
+                  <span class="chip">View details →</span>
                 </div>
               </a>
 
-              <a class="gcard" href="https://play.google.com/store/apps/details?id=dasi.prs5.farmmanager&hl=en" target="_blank" rel="noopener" aria-label="Open Farm Manager on Google Play">
+              <a class="gcard" href="#project-farm-manager" data-project="farm-manager">
                 <img src="assets/farm manager.webp" alt="Farm Manager cover">
                 <div class="gbody">
                   <h5 class="gtitle">Farm Manager</h5>
                   <div class="gmeta">Mobile • Unity</div>
-                  <span class="chip">Google Play →</span>
+                  <span class="chip">View details →</span>
                 </div>
               </a>
 
-              <a class="gcard" href="https://play.google.com/store/apps/details?id=dasi.prs3.hotelmanager&hl=en" target="_blank" rel="noopener" aria-label="Open Hotel Manager on Google Play">
+              <a class="gcard" href="#project-hotel-manager" data-project="hotel-manager">
                 <img src="assets/hotel manager.webp" alt="Hotel Manager cover">
                 <div class="gbody">
                   <h5 class="gtitle">Hotel Manager</h5>
                   <div class="gmeta">Mobile • Unity</div>
-                  <span class="chip">Google Play →</span>
+                  <span class="chip">View details →</span>
                 </div>
               </a>
 
-              <a class="gcard" href="https://play.google.com/store/apps/details?id=dasi.prs4.aquariumshop&hl=en" target="_blank" rel="noopener" aria-label="Open Aquarium Shop on Google Play">
+              <a class="gcard" href="#project-aquarium-shop" data-project="aquarium-shop">
                 <img src="assets/aquarium.webp" alt="Aquarium Shop cover">
                 <div class="gbody">
                   <h5 class="gtitle">Aquarium Shop</h5>
                   <div class="gmeta">Mobile • Unity</div>
-                  <span class="chip">Google Play →</span>
+                  <span class="chip">View details →</span>
                 </div>
               </a>
 
-              <a class="gcard" href="https://poki.com/en/g/dasi-library-manager" target="_blank" rel="noopener" aria-label="Play Dasi Library Manager on Poki">
+              <a class="gcard" href="#project-dasi-library-manager" data-project="dasi-library-manager">
                 <img src="assets/library.avif" alt="Dasi Library Manager cover">
                 <div class="gbody">
                   <h5 class="gtitle">Dasi Library Manager</h5>
                   <div class="gmeta">Web • JS/TS • Pixi.js</div>
-                  <span class="chip">Play on Poki →</span>
+                  <span class="chip">View details →</span>
                 </div>
               </a>
 
-              <a class="gcard" href="https://poki.com/en/g/dasi-wild-west" target="_blank" rel="noopener" aria-label="Play Dasi Wild West on Poki">
+              <a class="gcard" href="#project-dasi-wild-west" data-project="dasi-wild-west">
                 <img src="assets/wild.webp" alt="Dasi Wild West cover">
                 <div class="gbody">
                   <h5 class="gtitle">Dasi Wild West</h5>
                   <div class="gmeta">Web • JS/TS • Pixi.js</div>
-                  <span class="chip">Play on Poki →</span>
+                  <span class="chip">View details →</span>
                 </div>
               </a>
 
-              <a class="gcard" href="https://pinvadergames.itch.io/the-great-bubble-wars" target="_blank" rel="noopener" aria-label="Play The Great Bubble Wars on itch.io">
+              <a class="gcard" href="#project-great-bubble-wars" data-project="great-bubble-wars">
                 <img src="assets/bubbles.png" alt="The Great Bubble Wars cover">
                 <div class="gbody">
                   <h5 class="gtitle">The Great Bubble Wars</h5>
                   <div class="gmeta">Unity • 48h Jam</div>
-                  <span class="chip">Play on itch.io →</span>
+                  <span class="chip">View details →</span>
                 </div>
               </a>
 
-              <a class="gcard" href="https://apps.apple.com/us/app/crown-quest-action-rpg/id6477858164" target="_blank" rel="noopener" aria-label="Open Crown Quest on the App Store">
+              <a class="gcard" href="#project-crown-quest" data-project="crown-quest">
                 <img src="assets/crown.webp" alt="Crown Quest cover">
                 <div class="gbody">
                   <h5 class="gtitle">Crown Quest</h5>
                   <div class="gmeta">Unity • RPG</div>
-                  <span class="chip">App Store →</span>
+                  <span class="chip">View details →</span>
                 </div>
               </a>
             </div>
           </div>
 
-          
-          <!-- Bottom-right = Extra (with optional background image) -->
+          <!-- Extra -->
           <div class="tile extra has-bg" style="--extra-bg: url('assets/toolkit-focus.png');">
             <div>
               <h4>Toolkit & Focus</h4>
@@ -403,15 +527,329 @@
     </main>
   </div>
 
+  <!-- ========== PROJECT MODAL ========== -->
+  <div class="modal-backdrop" id="project-modal" aria-hidden="true">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="project-modal-title">
+      <div class="modal-header">
+        <h3 class="modal-title" id="project-modal-title">Project details</h3>
+        <button class="modal-close" type="button" aria-label="Close project details">✕</button>
+      </div>
+      <div class="modal-body">
+        <!-- Lumber Chopper -->
+        <article class="project-detail" data-project="lumber-chopper">
+          <div>
+            <h4>Lumber Chopper</h4>
+            <p class="project-meta">Mobile • Unity • Google Play & App Store • 30M+ downloads</p>
+            <div class="project-tags">
+              <span class="project-tag">Core gameplay & systems</span>
+              <span class="project-tag">LiveOps & content updates</span>
+              <span class="project-tag">IAP / economy</span>
+              <span class="project-tag">Team supervision</span>
+            </div>
+            <div class="project-body-text">
+              <p>Started as a small prototype that I built solo to validate the core loop. After strong test results, it scaled into a full product with additional developers, while I stayed as the main owner of the game’s direction and quality.</p>
+              <p>On this project I:</p>
+              <ul style="margin:0 0 8px 18px;padding:0;font-size:14px;">
+                <li>Designed and implemented the core chopping & upgrade loops.</li>
+                <li>Worked on monetization features (IAPs, rewarded flows) and progression.</li>
+                <li>Added meta systems such as customization, side loops and leaderboards.</li>
+                <li>Collaborated with artists & designers while supervising new features.</li>
+              </ul>
+            </div>
+            <div class="project-links">
+              <a href="https://play.google.com/store/apps/details?id=dasi.prs2.lumberchopper&hl=en" target="_blank" rel="noopener">Google Play →</a>
+              <!-- Add App Store link here if you want -->
+            </div>
+          </div>
+          <div class="project-snapshot">
+            <img src="assets/lumber chopper.webp" alt="Lumber Chopper gameplay">
+          </div>
+        </article>
+
+        <!-- ცხოველების წერილები -->
+        <article class="project-detail" data-project="tskhovelebis-tserilebi">
+          <div>
+            <h4>ცხოველების წერილები</h4>
+            <p class="project-meta">Unity • Educational • Mobile</p>
+            <div class="project-tags">
+              <span class="project-tag">Kids / educational</span>
+              <span class="project-tag">Gamified learning</span>
+            </div>
+            <div class="project-body-text">
+              <p>Educational mobile game focused on animals and reading, built in Unity. I contributed to core gameplay, UI flows and polishing the player experience for children.</p>
+            </div>
+            <div class="project-links">
+              <a href="https://play.google.com/store/apps/details?id=com.geolab.tserilebi&hl=en" target="_blank" rel="noopener">Google Play →</a>
+            </div>
+          </div>
+          <div class="project-snapshot">
+            <img src="assets/tskhovelebi.webp" alt="ცხოველების წერილები gameplay">
+          </div>
+        </article>
+
+        <!-- Farm Manager -->
+        <article class="project-detail" data-project="farm-manager">
+          <div>
+            <h4>Farm Manager</h4>
+            <p class="project-meta">Mobile • Unity</p>
+            <div class="project-tags">
+              <span class="project-tag">Simulation</span>
+              <span class="project-tag">Mobile</span>
+            </div>
+            <div class="project-body-text">
+              <p>Casual mobile farm management game. I worked on resource systems, upgrade flows and UX polish for mobile controls.</p>
+            </div>
+            <div class="project-links">
+              <a href="https://play.google.com/store/apps/details?id=dasi.prs5.farmmanager&hl=en" target="_blank" rel="noopener">Google Play →</a>
+            </div>
+          </div>
+          <div class="project-snapshot">
+            <img src="assets/farm manager.webp" alt="Farm Manager gameplay">
+          </div>
+        </article>
+
+        <!-- Hotel Manager -->
+        <article class="project-detail" data-project="hotel-manager">
+          <div>
+            <h4>Hotel Manager</h4>
+            <p class="project-meta">Mobile • Unity</p>
+            <div class="project-tags">
+              <span class="project-tag">Simulation</span>
+              <span class="project-tag">Systems design</span>
+            </div>
+            <div class="project-body-text">
+              <p>Hotel management game focusing on flow, upgrades and player progression. I implemented gameplay systems, UI screens and tuning.</p>
+            </div>
+            <div class="project-links">
+              <a href="https://play.google.com/store/apps/details?id=dasi.prs3.hotelmanager&hl=en" target="_blank" rel="noopener">Google Play →</a>
+            </div>
+          </div>
+          <div class="project-snapshot">
+            <img src="assets/hotel manager.webp" alt="Hotel Manager gameplay">
+          </div>
+        </article>
+
+        <!-- Aquarium Shop -->
+        <article class="project-detail" data-project="aquarium-shop">
+          <div>
+            <h4>Aquarium Shop</h4>
+            <p class="project-meta">Mobile • Unity</p>
+            <div class="project-tags">
+              <span class="project-tag">Simulation</span>
+              <span class="project-tag">Casual</span>
+            </div>
+            <div class="project-body-text">
+              <p>Lightweight management game around running an aquarium shop. I focused on gameplay feel, shop logic and performance.</p>
+            </div>
+            <div class="project-links">
+              <a href="https://play.google.com/store/apps/details?id=dasi.prs4.aquariumshop&hl=en" target="_blank" rel="noopener">Google Play →</a>
+            </div>
+          </div>
+          <div class="project-snapshot">
+            <img src="assets/aquarium.webp" alt="Aquarium Shop gameplay">
+          </div>
+        </article>
+
+        <!-- Dasi Library Manager -->
+        <article class="project-detail" data-project="dasi-library-manager">
+          <div>
+            <h4>Dasi Library Manager</h4>
+            <p class="project-meta">Web • JS/TS • Pixi.js • Poki</p>
+            <div class="project-tags">
+              <span class="project-tag">Web game</span>
+              <span class="project-tag">Pixi.js</span>
+            </div>
+            <div class="project-body-text">
+              <p>Browser management game built with JS/TS and Pixi.js. I worked on both gameplay and performance tuning for web deployment.</p>
+            </div>
+            <div class="project-links">
+              <a href="https://poki.com/en/g/dasi-library-manager" target="_blank" rel="noopener">Play on Poki →</a>
+            </div>
+          </div>
+          <div class="project-snapshot">
+            <img src="assets/library.avif" alt="Dasi Library Manager gameplay">
+          </div>
+        </article>
+
+        <!-- Dasi Wild West -->
+        <article class="project-detail" data-project="dasi-wild-west">
+          <div>
+            <h4>Dasi Wild West</h4>
+            <p class="project-meta">Web • JS/TS • Pixi.js • Poki</p>
+            <div class="project-tags">
+              <span class="project-tag">Web game</span>
+              <span class="project-tag">Action</span>
+            </div>
+            <div class="project-body-text">
+              <p>Top-down Wild West web game with shooting and movement mechanics. Implemented in Pixi.js with a focus on feel and responsiveness.</p>
+            </div>
+            <div class="project-links">
+              <a href="https://poki.com/en/g/dasi-wild-west" target="_blank" rel="noopener">Play on Poki →</a>
+            </div>
+          </div>
+          <div class="project-snapshot">
+            <img src="assets/wild.webp" alt="Dasi Wild West gameplay">
+          </div>
+        </article>
+
+        <!-- The Great Bubble Wars -->
+        <article class="project-detail" data-project="great-bubble-wars">
+          <div>
+            <h4>The Great Bubble Wars</h4>
+            <p class="project-meta">Unity • 48h Jam</p>
+            <div class="project-tags">
+              <span class="project-tag">Game jam</span>
+              <span class="project-tag">Prototype</span>
+            </div>
+            <div class="project-body-text">
+              <p>Fast-paced jam game built in 48 hours. I owned core mechanics, game feel and moment-to-moment gameplay.</p>
+            </div>
+            <div class="project-links">
+              <a href="https://pinvadergames.itch.io/the-great-bubble-wars" target="_blank" rel="noopener">Play on itch.io →</a>
+            </div>
+          </div>
+          <div class="project-snapshot">
+            <img src="assets/bubbles.png" alt="The Great Bubble Wars gameplay">
+          </div>
+        </article>
+
+        <!-- Crown Quest -->
+        <article class="project-detail" data-project="crown-quest">
+          <div>
+            <h4>Crown Quest</h4>
+            <p class="project-meta">Unity • Action RPG • Mobile</p>
+            <div class="project-tags">
+              <span class="project-tag">RPG systems</span>
+              <span class="project-tag">Combat</span>
+            </div>
+            <div class="project-body-text">
+              <p>Action RPG for mobile built in Unity. I contributed to gameplay systems, combat feel and progression.</p>
+            </div>
+            <div class="project-links">
+              <a href="https://apps.apple.com/us/app/crown-quest-action-rpg/id6477858164" target="_blank" rel="noopener">App Store →</a>
+            </div>
+          </div>
+          <div class="project-snapshot">
+            <img src="assets/crown.webp" alt="Crown Quest gameplay">
+          </div>
+        </article>
+      </div>
+    </div>
+  </div>
+
   <script>
     // Current year
     document.getElementById('y').textContent = new Date().getFullYear();
 
     // Reveal on scroll
     const io = new IntersectionObserver((entries)=>{
-      entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('show'); io.unobserve(e.target); } });
+      entries.forEach(e=>{
+        if(e.isIntersecting){
+          e.target.classList.add('show');
+          io.unobserve(e.target);
+        }
+      });
     }, {threshold: .15});
     document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+    // Project modal logic (hash-based deep links)
+    (function(){
+      const modalBackdrop = document.getElementById('project-modal');
+      if(!modalBackdrop) return;
+
+      const modal = modalBackdrop.querySelector('.modal');
+      const closeBtn = modalBackdrop.querySelector('.modal-close');
+      const detailBlocks = modalBackdrop.querySelectorAll('.project-detail');
+      const cards = document.querySelectorAll('.gcard[data-project]');
+
+      let isOpen = false;
+
+      function lockBody(lock){
+        document.body.style.overflow = lock ? 'hidden' : '';
+      }
+
+      function showProject(slug, fromHash){
+        let found = false;
+        detailBlocks.forEach(block=>{
+          if(block.dataset.project === slug){
+            block.classList.add('active');
+            found = true;
+          } else {
+            block.classList.remove('active');
+          }
+        });
+        if(!found) return;
+
+        modalBackdrop.classList.add('open');
+        modalBackdrop.setAttribute('aria-hidden', 'false');
+        isOpen = true;
+        lockBody(true);
+
+        if(!fromHash){
+          const newHash = '#project-' + slug;
+          if(window.location.hash !== newHash){
+            history.pushState(null, '', newHash);
+          }
+        }
+      }
+
+      function closeModal(manageHash){
+        if(!isOpen) return;
+        modalBackdrop.classList.remove('open');
+        modalBackdrop.setAttribute('aria-hidden', 'true');
+        isOpen = false;
+        lockBody(false);
+
+        if(manageHash){
+          // Remove hash but keep path & query
+          history.pushState(null, '', window.location.pathname + window.location.search);
+        }
+      }
+
+      // Card clicks
+      cards.forEach(card=>{
+        card.addEventListener('click', (e)=>{
+          e.preventDefault();
+          const slug = card.dataset.project;
+          if(slug) showProject(slug, false);
+        });
+      });
+
+      // Close button
+      closeBtn.addEventListener('click', ()=>closeModal(true));
+
+      // Backdrop click closes
+      modalBackdrop.addEventListener('click', (e)=>{
+        if(e.target === modalBackdrop){
+          closeModal(true);
+        }
+      });
+
+      // Esc to close
+      document.addEventListener('keydown', (e)=>{
+        if(e.key === 'Escape'){
+          closeModal(true);
+        }
+      });
+
+      // Handle hash-based deep linking
+      function handleHashChange(){
+        const hash = window.location.hash;
+        if(hash && hash.startsWith('#project-')){
+          const slug = hash.slice('#project-'.length);
+          if(slug){
+            showProject(slug, true);
+          }
+        } else if(isOpen){
+          // Hash changed away from project while modal open
+          closeModal(false);
+        }
+      }
+
+      window.addEventListener('hashchange', handleHashChange);
+      // Initial load
+      handleHashChange();
+    })();
   </script>
 </body>
 </html>
