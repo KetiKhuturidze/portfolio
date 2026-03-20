@@ -82,6 +82,7 @@ a:hover{text-decoration:underline}
   grid-template-areas:
     "s1 s2 big"
     "s3 s4 big"
+    "html5 html5 html5"
     "proj proj proj";
 }
 
@@ -91,6 +92,7 @@ a:hover{text-decoration:underline}
     grid-template-areas:
       "s1" "s2" "s3" "s4"
       "big"
+      "html5"
       "proj";
   }
 }
@@ -99,7 +101,7 @@ a:hover{text-decoration:underline}
 .proj{
   grid-column: 1 / -1;
 }
-
+.html5tile{ grid-area: html5; }
 
 .tile{
   position:relative;
